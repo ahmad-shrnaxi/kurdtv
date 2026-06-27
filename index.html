@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KURDtv - پلاتفۆرمێ شاهانە یێ کەناڵێن کوردی و جیهانی</title>
+    <title>KURDtv - Mega Premium IPTV Platform</title>
+    <!-- لۆدکرنا پلەیەرێ پیشەیی یێ IPTV -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
             --bg-color: #05070c;
-            --card-bg: rgba(17, 24, 39, 0.85); /* پاشبنەمایا شووشەیی */
+            --card-bg: rgba(17, 24, 39, 0.85);
             --kurd-red: #ef4444;
             --kurd-green: #10b981;
             --kurd-gold: #f59e0b;
@@ -17,8 +18,8 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(5, 7, 12, 0.8), rgba(5, 7, 12, 0.95)), 
-                        url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=1600&q=80') no-gradient;
+            background: linear-gradient(rgba(5, 7, 12, 0.82), rgba(5, 7, 12, 0.96)), 
+                        url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=1600&q=80') no-repeat;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -29,7 +30,7 @@
         
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* سەرێ لاپەڕەی دگەل لۆگۆیێ نوو یێ KURDtv */
+        /* سەرێ لاپەڕەی */
         .header {
             display: flex;
             align-items: center;
@@ -49,35 +50,16 @@
             border-radius: 16px 16px 0 0;
         }
 
-        /* دروستکرنا لۆگۆیێ KURDtv ب شێوازەکێ نەئۆنی یێ پڕۆفیشناڵ */
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        /* لۆگۆیێ KURDtv */
+        .logo-container { display: flex; align-items: center; gap: 10px; }
         .kurd-logo {
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: 1px;
+            font-size: 32px; font-weight: 900; letter-spacing: 1px;
             background: linear-gradient(to right, #fff, var(--kurd-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            display: flex;
-            align-items: center;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center;
         }
-        .kurd-logo span {
-            color: var(--kurd-red);
-            -webkit-text-fill-color: var(--kurd-red);
-        }
-        .sun-icon {
-            width: 35px;
-            height: 35px;
-            background: radial-gradient(circle, #fffb00 20%, #f59e0b 70%);
-            border-radius: 50%;
-            box-shadow: 0 0 15px #f59e0b;
-            position: relative;
-        }
+        .kurd-logo span { color: var(--kurd-red); -webkit-text-fill-color: var(--kurd-red); }
+        .sun-icon { width: 35px; height: 35px; background: radial-gradient(circle, #fffb00 20%, #f59e0b 70%); border-radius: 50%; box-shadow: 0 0 15px #f59e0b; }
 
         .header-info { text-align: left; }
         .header-info p { margin: 0; color: var(--kurd-gold); font-weight: 600; font-size: 14px; }
@@ -101,46 +83,30 @@
         /* سندوقا گشتی یا دەوڵەتان */
         .tabs-title { font-size: 14px; color: var(--kurd-gold); margin-bottom: 8px; font-weight: bold; text-align: right; }
         .tabs { 
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 15px;
-            background: rgba(11, 15, 23, 0.8);
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-            max-height: 200px;
-            overflow-y: auto;
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;
+            background: rgba(11, 15, 23, 0.8); padding: 10px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05); max-height: 180px; overflow-y: auto;
         }
         
         .tab-btn { 
-            background: #1f2937; 
-            border: 1px solid #374151; 
-            color: #f3f4f6; 
-            padding: 8px 14px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 13px; 
-            transition: 0.2s;
-            text-align: center;
+            background: #1f2937; border: 1px solid #374151; color: #f3f4f6; padding: 8px 14px; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; text-align: center;
         }
-        .tab-btn.active, .tab-btn:hover { 
-            background: var(--kurd-gold); 
-            color: #000; 
-            border-color: var(--kurd-gold); 
-        }
+        .tab-btn.active, .tab-btn:hover { background: var(--kurd-gold); color: #000; border-color: var(--kurd-gold); }
 
         /* لیستا کەناڵان */
-        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 420px; }
+        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 450px; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
-        .channel-item { display: flex; align-items: center; justify-content: space-between; background: rgba(31, 41, 55, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .channel-item { display: flex; align-items: center; justify-content: space-between; background: rgba(31, 41, 55, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.15s; }
         .channel-item:hover { background: rgba(45, 55, 72, 0.9); border-color: var(--kurd-gold); }
         
         .badge { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: bold; white-space: nowrap; }
         .badge-kurd { background: linear-gradient(45deg, var(--kurd-red), var(--kurd-gold)); color: white; }
         .badge-global { background: #4b5563; color: white; }
+        
+        /* سیستەمێ لۆدینگێ مێگا */
+        .loading-text { text-align: center; color: var(--kurd-gold); font-size: 13px; font-weight: bold; padding: 5px; }
     </style>
 </head>
 <body>
@@ -152,11 +118,12 @@
             <div class="kurd-logo">KURD<span>tv</span></div>
         </div>
         <div class="header-info">
-            <p>پەخشێ جیهانی یێ فەرمی</p>
+            <p>Mega Live Stream • +50,000 Channels</p>
         </div>
     </div>
 
     <div class="main-layout">
+        <!-- شاشا ڤیدیۆیێ -->
         <div class="player-section">
             <div id="player-container" class="video-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
@@ -164,16 +131,21 @@
             <div id="current-title">کەناڵێ نوکە: Rudaw TV Live</div>
         </div>
 
+        <!-- بەشێ کەتەلۆگێ وڵاتان -->
         <div class="sidebar-section">
-            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی بنڤێسە..." oninput="filterChannels()">
+            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بگەڕێ..." oninput="filterChannels()">
             
-            <div class="tabs-title">لیستا گشتی یا دەوڵەتێن جیهانێ:</div>
+            <div class="tabs-title">لیستا وڵاتێن جیهانێ:</div>
             <div class="tabs" id="countries-bar">
                 <button class="tab-btn active" onclick="switchTab('all', this)">🌍 هەمی کەناڵ</button>
                 <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان (ناوخۆ)</button>
             </div>
 
+            <div id="loading-status" class="loading-text">خۆکار لۆدکرنا ٥٠,٠٠٠ کەناڵان...</div>
+
+            <!-- لیستا کەناڵان -->
             <div class="channel-list" id="channel-box">
+                <!-- کەناڵێن ناوخۆیی یێن جێگیرکری -->
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV Live', true)"><span>📺 Rudaw TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24 Live', true)"><span>📺 Kurdistan 24</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
@@ -194,6 +166,122 @@
 <script>
     let player = null;
     let currentCountryCode = 'all';
+    let allChannelsData = []; // کۆمکرنا داتای بۆ گەڕیانا خێرا
 
     const countryTranslations = {
-        'us': '🇺🇸 ئەمریکا', 'it
+        'us': '🇺🇸 ئەمریکا', 'it': '🇮🇹 ئیتالیا', 'in': '🇮🇳 هیندستان', 'pk': '🇵🇰 پاکستان',
+        'br': '🇧🇷 بەڕازیل', 'ir': '🇮🇷 ئێران', 'iq': '🇮🇶 عێراق', 'eg': '🇪🇬 میسر',
+        'sa': '🇸🇦 سعوودیە', 'il': '🇮🇱 ئیسرائیل', 'fr': '🇫🇷 فڕەنسا', 'de': '🇩🇪 ئەڵمانیا', 
+        'tr': '🇹🇷 تورکیا', 'sy': '🇸🇾 سووریا', 'ae': '🇦🇪 ئیمارات', 'uk': '🇬🇧 بەریتانیا',
+        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯🇵 ژاپۆن',
+        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦🇷 ئەرجەنتین'
+    };
+
+    function playLive(url, name, isYoutube) {
+        document.getElementById('current-title').innerText = "کەناڵێ نوکە: " + name;
+        const container = document.getElementById('player-container');
+        
+        if (isYoutube) {
+            if(player) { player.dispose(); player = null; }
+            container.innerHTML = `<iframe id="yt-player" src="${url}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+        } else {
+            container.innerHTML = `
+                <video id="live-player" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%">
+                    <source src="${url}" type="application/x-mpegURL">
+                </video>`;
+            player = videojs('live-player');
+            player.play();
+        }
+    }
+
+    function switchTab(countryCode, btn) {
+        currentCountryCode = countryCode;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterChannels();
+    }
+
+    function filterChannels() {
+        let query = document.getElementById('search').value.toLowerCase();
+        let items = document.querySelectorAll('.channel-item');
+        
+        items.forEach(item => {
+            let country = item.getAttribute('data-country');
+            let text = item.innerText.toLowerCase();
+            
+            let matchesCountry = (currentCountryCode === 'all' || country === currentCountryCode);
+            let matchesSearch = text.includes(query);
+            
+            item.style.display = (matchesCountry && matchesSearch) ? "flex" : "none";
+        });
+    }
+
+    // لۆدکرنا جیهانی ب قەبارێ مەزن (تەواوی داتابەیسا جیهانی)
+    fetch('https://iptv-org.github.io/iptv/index.m3u')
+        .then(res => res.text())
+        .then(data => {
+            const lines = data.split('\n');
+            const box = document.getElementById('channel-box');
+            const tabsBar = document.getElementById('countries-bar');
+            
+            let currentName = '';
+            let currentCountry = 'world';
+            let detectedCountries = new Set();
+            let chunkHtml = '';
+            let count = 0;
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                if (line.startsWith('#EXTINF:')) {
+                    currentName = line.split(',')[1] || '';
+                    currentCountry = 'world';
+                    
+                    if(line.includes('tvg-country="')) {
+                        currentCountry = line.split('tvg-country="')[1].split('"')[0].toLowerCase();
+                    }
+                    
+                    let lowerName = currentName.toLowerCase();
+                    if(lowerName.includes('kurd') || lowerName.includes('rudaw') || lowerName.includes('waar')) {
+                        currentCountry = 'kurd';
+                    }
+                    
+                } else if (line.startsWith('http') && currentName) {
+                    if (currentName.length > 45 || line.includes('Chrome')) continue;
+                    
+                    if (currentCountry !== 'world' && currentCountry !== 'kurd') {
+                        detectedCountries.add(currentCountry);
+                    }
+
+                    let bText = countryTranslations[currentCountry] || '🌐 جیهانی';
+                    
+                    if (currentCountry !== 'world' && currentCountry !== 'kurd') {
+                        chunkHtml += `<div class="channel-item" data-country="${currentCountry}" onclick="playLive('${line}', '${currentName.replace(/'/g, "\\'")}', false)"><span>📺 ${currentName}</span> <span class="badge badge-global">${bText}</span></div>`;
+                        count++;
+                    }
+                    currentName = '';
+                }
+            }
+            
+            // دروستکرنا دوگمێن وڵاتان
+            detectedCountries.forEach(code => {
+                if(countryTranslations[code]) {
+                    const btn = document.createElement('button');
+                    btn.className = 'tab-btn';
+                    btn.innerText = countryTranslations[code];
+                    btn.onclick = function() { switchTab(code, this); };
+                    tabsBar.appendChild(btn);
+                }
+            });
+
+            // زێدەکرنا کەناڵان بۆ ناو لیستێ بێ خاڤبوون
+            box.insertAdjacentHTML('beforeend', chunkHtml);
+            document.getElementById('loading-status').innerText = `✅ تەمام! ${count.toLocaleString()} کەناڵێن جیهانی د بەرهەڤن.`;
+        })
+        .catch(err => {
+            document.getElementById('loading-status').innerText = "کێشەیەک د لۆدکرنێ دا هەیە.";
+        });
+</script>
+
+</body>
+</html>

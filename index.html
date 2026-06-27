@@ -26,6 +26,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
+            user-select: none; /* ڕێگری ل کۆپیکرنا بێدەسەڵات دکەت */
         }
         
         .container { max-width: 1400px; margin: 0 auto; }
@@ -61,7 +62,6 @@
         .kurd-logo span { color: var(--kurd-red); -webkit-text-fill-color: var(--kurd-red); text-transform: lowercase; }
         .sun-icon { width: 35px; height: 35px; background: radial-gradient(circle, #fffb00 20%, #f59e0b 70%); border-radius: 50%; box-shadow: 0 0 15px #f59e0b; }
 
-        /* دوگما زێدەکرنا کەناڵان یا لایێ چەپێ */
         .header-actions { display: flex; align-items: center; gap: 15px; }
         .add-channel-btn {
             background: linear-gradient(45deg, var(--kurd-green), #059669);
@@ -106,13 +106,14 @@
         .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 450px; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
-        .channel-item { display: flex; align-items: center; justify-content: space-between; background: rgba(31, 41, 55, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.15s; }
+        .channel-item { display: flex; align-items: center; justify-content: space-between; background: rgba(31, 41, 55, 0.7); border: 1px solid rgba(255,255,255,0.05); color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.15s; position: relative; }
         .channel-item:hover { background: rgba(45, 55, 72, 0.9); border-color: var(--kurd-gold); }
         
         .badge { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: bold; white-space: nowrap; }
         .badge-kurd { background: linear-gradient(45deg, var(--kurd-red), var(--kurd-gold)); color: white; }
         .badge-global { background: #4b5563; color: white; }
         .badge-user { background: linear-gradient(45deg, #a855f7, #ec4899); color: white; }
+        .badge-sport { background: linear-gradient(45deg, #0284c7, #06b6d4); color: white; }
         
         .loading-text { text-align: center; color: var(--kurd-gold); font-size: 13px; font-weight: bold; padding: 5px; }
     </style>
@@ -126,7 +127,6 @@
             <div class="kurd-logo">KURD <span>tv</span></div>
         </div>
         <div class="header-actions">
-            <!-- دوگما شاهانە یا زێدەکرنا خێرا یا کەناڵان ب شێوازێ + -->
             <button class="add-channel-btn" onclick="addNewChannelPrompt()" title="زێدەکرنا کەناڵێ نوو">+</button>
         </div>
     </div>
@@ -140,16 +140,17 @@
         </div>
 
         <div class="sidebar-section">
-            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بگەڕێ..." oninput="filterChannels()">
+            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بگەڕێ (وەک: Bein, Sport)..." oninput="filterChannels()">
             
             <div class="tabs-title">لیستا وڵاتێن جیهانێ:</div>
             <div class="tabs" id="countries-bar">
                 <button class="tab-btn active" onclick="switchTab('all', this)">🌍 هەمی کەناڵ</button>
+                <button class="tab-btn" onclick="switchTab('sport', this)">⚽ وەرزشی و Bein</button>
                 <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان (ناوخۆ)</button>
                 <button class="tab-btn" onclick="switchTab('user-added', this)">⭐ یێن من زێدەکرین</button>
             </div>
 
-            <div id="loading-status" class="loading-text">خۆکار لۆدکرنا ٥٠,٠٠٠ کەناڵان...</div>
+            <div id="loading-status" class="loading-text">خۆکار لۆدکرنا ١٠,٠٠٠+ کەناڵێن جیهانی و بین سبۆرت...</div>
 
             <div class="channel-list" id="channel-box">
                 <!-- کەناڵێن ناوخۆیی یێن جێگیرکری -->
@@ -158,12 +159,6 @@
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/V6W3o-GfP98', 'Gali Kurdistan Live', true)"><span>📺 Gali Kurdistan</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/xLzYhY7P_iI', 'Zagros TV Live', true)"><span>📺 Zagros TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/Z8p0mY9b5pA', 'Ava Entertainment Live', true)"><span>📺 Ava TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/Uv4FpCq7pC4', 'Kurdstat TV Live', true)"><span>📺 Kurdstat</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/o0kR6B-6v3o', 'Speda TV Live', true)"><span>📺 Speda TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/v9C2oQ7_O4k', 'Payam TV Live', true)"><span>📺 Payam TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/tMdfpAAnpIQ', 'NRT HD Live', true)"><span>📺 NRT TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
-                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/J7_YitU_V0Y', 'Kurdistan TV Live', true)"><span>📺 Kurdistan TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
             </div>
         </div>
     </div>
@@ -175,12 +170,9 @@
     let currentCountryCode = 'all';
 
     const countryTranslations = {
-        'us': '🇺🇸 ئەمریکا', 'it': '🇮🇹 ئیتالیا', 'in': '🇮🇳 هیندستان', 'pk': '🇵🇰 پاکستان',
-        'br': '🇧🇷 بەڕازیل', 'ir': '🇮🇷 ئێران', 'iq': '🇮🇶 عێراق', 'eg': '🇪🇬 میسر',
-        'sa': '🇸🇦 سعوودیە', 'il': '🇮🇱 ئیسرائیل', 'fr': '🇫🇷 فڕەنسا', 'de': '🇩🇪 ئەڵمانیا', 
-        'tr': '🇹🇷 تورکیا', 'sy': '🇸🇾 سووریا', 'ae': '🇦🇪 ئیمارات', 'uk': '🇬🇧 بەریتانیا',
-        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯🇵 ژاپۆن',
-        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦🇷 ئەرجەنتین'
+        'us': '🇺🇸 ئەمریکا', 'it': '🇮🇹 ئیتالیا', 'in': '🇮🇳 هیندستان', 'fr': '🇫🇷 فڕەنسا', 
+        'de': '🇩🇪 ئەڵمانیا', 'tr': '🇹🇷 تورکیا', 'iq': '🇮🇶 عێراق', 'sa': '🇸🇦 سعوودیە', 
+        'ae': '🇦🇪 ئیمارات', 'uk': '🇬🇧 بەریتانیا', 'es': '🇪🇸 ئیسپانیا'
     };
 
     function playLive(url, name, isYoutube) {
@@ -222,17 +214,15 @@
         });
     }
 
-    // فەنکشنا زێدەکرنا خێرا یا کەناڵێ نوو ب دوگما +
+    // زێدەکرنا خێرا
     function addNewChannelPrompt() {
         let name = prompt("ناڤێ کەناڵێ نوو بنڤێسه:");
         if (!name) return;
         
-        let url = prompt("لینکێ کەناڵی (یوتیوب یان لینکا لایڤا m3u8) دابنی:");
+        let url = prompt("لینکێ کەناڵی (m3u8 یان یوتیوب) دابنی:");
         if (!url) return;
 
         let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
-        
-        // گۆڕینی لینکا ئاسایی یا یوتیوب بۆ لینکا embed ئەگەر پێویست بکەت
         if (isYoutube && !url.includes("embed/")) {
             let videoId = "";
             if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
@@ -240,22 +230,56 @@
             if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
         }
 
-        let newChannel = { name: name, url: url, isYoutube: isYoutube };
+        let id = 'ch_' + Date.now(); // پێدانا ناسنامەکا جیاواز بۆ هەر کەناڵەکێ
+        let newChannel = { id: id, name: name, url: url, isYoutube: isYoutube };
         
-        // پاشکەفتکرن د ناڤ بیرۆکا وێبگەڕی دا (LocalStorage)
         let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
         savedChannels.push(newChannel);
         localStorage.setItem('user_channels', JSON.stringify(savedChannels));
         
-        // نیشاندانا ئێکسەر د لیستێ دا
         renderUserChannel(newChannel);
-        alert(`کەناڵێ "${name}" ب سەرکەفتوویی زێدەبوو!`);
     }
 
+    // دروستکرنا کەناڵێن دەستکاریکری ب سیستەمێ کلیکا درێژ یان کلیکا ڕاستێ (بێ دوگما X)
     function renderUserChannel(ch) {
         const box = document.getElementById('channel-box');
-        let itemHtml = `<div class="channel-item" data-country="user-added" onclick="playLive('${ch.url}', '${ch.name.replace(/'/g, "\\'")}', ${ch.isYoutube})"><span>📺 ${ch.name}</span> <span class="badge badge-user">زێدەکری</span></div>`;
-        box.insertAdjacentHTML('afterbegin', itemHtml); // دەکەڤیتە سەرێ لیستێ
+        const div = document.createElement('div');
+        div.className = 'channel-item';
+        div.setAttribute('data-country', 'user-added');
+        div.setAttribute('id', ch.id);
+        div.innerHTML = `<span>📺 ${ch.name}</span> <span class="badge badge-user">زێدەکری</span>`;
+        
+        // ڕووداوێ لێدانێ ب کلیکا ئاسایی
+        div.addEventListener('click', function() {
+            playLive(ch.url, ch.name, ch.isYoutube);
+        });
+
+        // سیستەمێ ژێبرنا پاراستی ب کلیکا ڕاستێ (ContextMenu)
+        div.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            confirmDeleteChannel(ch.id, ch.name);
+        });
+
+        // سیستەمێ ژێبرنا پاراستی ب کلیکا درێژ (Long Press) بۆ مۆبایلان
+        let pressTimer;
+        div.addEventListener('touchstart', function() {
+            pressTimer = setTimeout(function() {
+                confirmDeleteChannel(ch.id, ch.name);
+            }, 1500); //گرتن بۆ چرکە و نیڤەکێ
+        });
+        div.addEventListener('touchend', function() { clearTimeout(pressTimer); });
+
+        box.insertBefore(div, box.firstChild);
+    }
+
+    function confirmDeleteChannel(id, name) {
+        let ask = confirm(`🚨 ئایا تۆ پشت ڕاستی دڤێت کەناڵێ "${name}" ب تەمامی ژێ ببەی؟`);
+        if (ask) {
+            let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+            savedChannels = savedChannels.filter(c => c.id !== id);
+            localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+            document.getElementById(id).remove();
+        }
     }
 
     function loadSavedChannels() {
@@ -263,11 +287,11 @@
         savedChannels.forEach(ch => renderUserChannel(ch));
     }
 
-    // لۆدکرنا تەواوێ داتابەیسا جیهانی
+    // فێچکرنا داتایێ ١٠,٠٠٠ کەناڵان دگەڵ بەشێ کورتێ وەرزش و بین سبۆرت و کاس العالم
     fetch('https://iptv-org.github.io/iptv/index.m3u')
         .then(res => res.text())
         .then(data => {
-            loadSavedChannels(); // لۆدکرنا کەناڵێن تە ل دەستپێکێ
+            loadSavedChannels();
             
             const lines = data.split('\n');
             const box = document.getElementById('channel-box');
@@ -290,21 +314,23 @@
                         currentCountry = line.split('tvg-country="')[1].split('"')[0].toLowerCase();
                     }
                     
-                    let lowerName = currentName.toLowerCase();
-                    if(lowerName.includes('kurd') || lowerName.includes('rudaw') || lowerName.includes('waar')) {
+                    let lName = currentName.toLowerCase();
+                    // دەستنیشانکرنا کەناڵێن وەرزشی، بین سبۆرت، و کاس العالم
+                    if(lName.includes('bein') || lName.includes('sport') || lName.includes('alkass') || lName.includes('world cup') || lName.includes('fifa')) {
+                        currentCountry = 'sport';
+                    } else if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('waar')) {
                         currentCountry = 'kurd';
                     }
                     
                 } else if (line.startsWith('http') && currentName) {
-                    if (currentName.length > 45 || line.includes('Chrome')) continue;
+                    if (currentName.length > 40 || line.includes('Chrome')) continue;
                     
-                    if (currentCountry !== 'world' && currentCountry !== 'kurd') {
+                    if (currentCountry === 'sport') {
+                        chunkHtml += `<div class="channel-item" data-country="sport" onclick="playLive('${line}', '${currentName.replace(/'/g, "\\'")}', false)"><span>⚽ ${currentName}</span> <span class="badge badge-sport">Bein / Sport</span></div>`;
+                        count++;
+                    } else if (currentCountry !== 'world' && currentCountry !== 'kurd' && countryTranslations[currentCountry]) {
                         detectedCountries.add(currentCountry);
-                    }
-
-                    let bText = countryTranslations[currentCountry] || '🌐 جیهانی';
-                    
-                    if (currentCountry !== 'world' && currentCountry !== 'kurd') {
+                        let bText = countryTranslations[currentCountry];
                         chunkHtml += `<div class="channel-item" data-country="${currentCountry}" onclick="playLive('${line}', '${currentName.replace(/'/g, "\\'")}', false)"><span>📺 ${currentName}</span> <span class="badge badge-global">${bText}</span></div>`;
                         count++;
                     }
@@ -313,20 +339,18 @@
             }
             
             detectedCountries.forEach(code => {
-                if(countryTranslations[code]) {
-                    const btn = document.createElement('button');
-                    btn.className = 'tab-btn';
-                    btn.innerText = countryTranslations[code];
-                    btn.onclick = function() { switchTab(code, this); };
-                    tabsBar.appendChild(btn);
-                }
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn';
+                btn.innerText = countryTranslations[code];
+                btn.onclick = function() { switchTab(code, this); };
+                tabsBar.appendChild(btn);
             });
 
             box.insertAdjacentHTML('beforeend', chunkHtml);
-            document.getElementById('loading-status').innerText = `✅ تەمام! ${count.toLocaleString()} کەناڵێن جیهانی د بەرهەڤن.`;
+            document.getElementById('loading-status').innerText = `✅ تەمام! ${count.toLocaleString()} کەناڵێن وەرزشی و جیهانی لۆد بوون.`;
         })
         .catch(err => {
-            document.getElementById('loading-status').innerText = "کێشەیەک د لۆدکرنێ دا هەیە.";
+            document.getElementById('loading-status').innerText = "کێشەیەک د هێڵێ دا هەیە.";
         });
 </script>
 

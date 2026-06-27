@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KURDtv - Mega Premium IPTV Platform</title>
+    <title>KURD tv - Mega Premium IPTV Platform</title>
     <!-- لۆدکرنا پلەیەرێ پیشەیی یێ IPTV -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
@@ -50,15 +50,15 @@
             border-radius: 16px 16px 0 0;
         }
 
-        /* لۆگۆیێ KURDtv */
+        /* لۆگۆیێ KURD tv */
         .logo-container { display: flex; align-items: center; gap: 10px; }
         .kurd-logo {
             font-size: 32px; font-weight: 900; letter-spacing: 1px;
             background: linear-gradient(to right, #fff, var(--kurd-gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            display: flex; align-items: center;
+            display: flex; align-items: center; gap: 6px;
         }
-        .kurd-logo span { color: var(--kurd-red); -webkit-text-fill-color: var(--kurd-red); }
+        .kurd-logo span { color: var(--kurd-red); -webkit-text-fill-color: var(--kurd-red); text-transform: lowercase; }
         .sun-icon { width: 35px; height: 35px; background: radial-gradient(circle, #fffb00 20%, #f59e0b 70%); border-radius: 50%; box-shadow: 0 0 15px #f59e0b; }
 
         .header-info { text-align: left; }
@@ -105,7 +105,6 @@
         .badge-kurd { background: linear-gradient(45deg, var(--kurd-red), var(--kurd-gold)); color: white; }
         .badge-global { background: #4b5563; color: white; }
         
-        /* سیستەمێ لۆدینگێ مێگا */
         .loading-text { text-align: center; color: var(--kurd-gold); font-size: 13px; font-weight: bold; padding: 5px; }
     </style>
 </head>
@@ -115,7 +114,7 @@
     <div class="header">
         <div class="logo-container">
             <div class="sun-icon"></div>
-            <div class="kurd-logo">KURD<span>tv</span></div>
+            <div class="kurd-logo">KURD <span>tv</span></div>
         </div>
         <div class="header-info">
             <p>Mega Live Stream • +50,000 Channels</p>
@@ -123,7 +122,6 @@
     </div>
 
     <div class="main-layout">
-        <!-- شاشا ڤیدیۆیێ -->
         <div class="player-section">
             <div id="player-container" class="video-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
@@ -131,7 +129,6 @@
             <div id="current-title">کەناڵێ نوکە: Rudaw TV Live</div>
         </div>
 
-        <!-- بەشێ کەتەلۆگێ وڵاتان -->
         <div class="sidebar-section">
             <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بگەڕێ..." oninput="filterChannels()">
             
@@ -143,9 +140,7 @@
 
             <div id="loading-status" class="loading-text">خۆکار لۆدکرنا ٥٠,٠٠٠ کەناڵان...</div>
 
-            <!-- لیستا کەناڵان -->
             <div class="channel-list" id="channel-box">
-                <!-- کەناڵێن ناوخۆیی یێن جێگیرکری -->
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV Live', true)"><span>📺 Rudaw TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24 Live', true)"><span>📺 Kurdistan 24</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
@@ -166,15 +161,14 @@
 <script>
     let player = null;
     let currentCountryCode = 'all';
-    let allChannelsData = []; // کۆمکرنا داتای بۆ گەڕیانا خێرا
 
     const countryTranslations = {
         'us': '🇺🇸 ئەمریکا', 'it': '🇮🇹 ئیتالیا', 'in': '🇮🇳 هیندستان', 'pk': '🇵🇰 پاکستان',
         'br': '🇧🇷 بەڕازیل', 'ir': '🇮🇷 ئێران', 'iq': '🇮🇶 عێراق', 'eg': '🇪🇬 میسر',
         'sa': '🇸🇦 سعوودیە', 'il': '🇮🇱 ئیسرائیل', 'fr': '🇫🇷 فڕەنسا', 'de': '🇩🇪 ئەڵمانیا', 
         'tr': '🇹🇷 تورکیا', 'sy': '🇸🇾 سووریا', 'ae': '🇦🇪 ئیمارات', 'uk': '🇬🇧 بەریتانیا',
-        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯🇵 ژاپۆن',
-        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦🇷 ئەرجەنتین'
+        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯ﭘ ژاپۆن',
+        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦﷼ ئەرجەنتین'
     };
 
     function playLive(url, name, isYoutube) {
@@ -216,7 +210,6 @@
         });
     }
 
-    // لۆدکرنا جیهانی ب قەبارێ مەزن (تەواوی داتابەیسا جیهانی)
     fetch('https://iptv-org.github.io/iptv/index.m3u')
         .then(res => res.text())
         .then(data => {
@@ -263,7 +256,6 @@
                 }
             }
             
-            // دروستکرنا دوگمێن وڵاتان
             detectedCountries.forEach(code => {
                 if(countryTranslations[code]) {
                     const btn = document.createElement('button');
@@ -274,7 +266,6 @@
                 }
             });
 
-            // زێدەکرنا کەناڵان بۆ ناو لیستێ بێ خاڤبوون
             box.insertAdjacentHTML('beforeend', chunkHtml);
             document.getElementById('loading-status').innerText = `✅ تەمام! ${count.toLocaleString()} کەناڵێن جیهانی د بەرهەڤن.`;
         })

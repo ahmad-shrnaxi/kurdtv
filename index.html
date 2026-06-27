@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurd TV Live</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0f172a; color: white; text-align: center; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 25px; }
+        .btn { background: #1e293b; border: 1px solid #334155; color: white; padding: 12px; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.2s; }
+        .btn:hover { background: #38bdf8; color: #0f172a; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="color: #38bdf8;">پەخشێ ڕاستەوخۆ یێ کەناڵان</h1>
+    <p>کەناڵێ خۆ هەڵبژێرە بۆ تەماشاکرنێ</p>
+    
+    <div class="video-container">
+        <!-- کەناڵێ دەستپێکێ (کوردستان ٢٤) -->
+        <iframe id="main-player" src="https://www.youtube.com/embed/live_stream?channel=UC4v3Z_8-Zf9T-gPekvT0uWw" allowfullscreen></iframe>
+    </div>
+
+    <div class="grid">
+        <button class="btn" onclick="change('UC4v3Z_8-Zf9T-gPekvT0uWw')">Kurdistan 24</button>
+        <button class="btn" onclick="change('UC80V9gGis_32ZisZfofY8vQ')">Rudaw TV</button>
+        <button class="btn" onclick="change('UCNye-wNBqNL5ZzHSJtiW_pA')">Al Jazeera (ar)</button>
+        <button class="btn" onclick="change('UCqFaG5hNflSgOHLkuA80y9w')">TRT World (en)</button>
+    </div>
+</div>
+
+<script>
+    function change(channelId) {
+        document.getElementById('main-player').src = "https://www.youtube.com/embed/live_stream?channel=" + channelId;
+    }
+</script>
+
+</body>
+</html>

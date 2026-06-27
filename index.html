@@ -61,8 +61,16 @@
         .kurd-logo span { color: var(--kurd-red); -webkit-text-fill-color: var(--kurd-red); text-transform: lowercase; }
         .sun-icon { width: 35px; height: 35px; background: radial-gradient(circle, #fffb00 20%, #f59e0b 70%); border-radius: 50%; box-shadow: 0 0 15px #f59e0b; }
 
-        .header-info { text-align: left; }
-        .header-info p { margin: 0; color: var(--kurd-gold); font-weight: 600; font-size: 14px; }
+        /* دوگما زێدەکرنا کەناڵان یا لایێ چەپێ */
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .add-channel-btn {
+            background: linear-gradient(45deg, var(--kurd-green), #059669);
+            color: white; border: none; width: 45px; height: 45px; border-radius: 50%;
+            font-size: 24px; font-weight: bold; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            transition: 0.2s;
+        }
+        .add-channel-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.7); }
 
         .main-layout { display: flex; flex-direction: column; gap: 25px; }
         @media (min-width: 992px) { .main-layout { flex-direction: row; } }
@@ -85,7 +93,7 @@
         .tabs { 
             display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;
             background: rgba(11, 15, 23, 0.8); padding: 10px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.05); max-height: 180px; overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.05); max-height: 140px; overflow-y: auto;
         }
         
         .tab-btn { 
@@ -104,6 +112,7 @@
         .badge { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: bold; white-space: nowrap; }
         .badge-kurd { background: linear-gradient(45deg, var(--kurd-red), var(--kurd-gold)); color: white; }
         .badge-global { background: #4b5563; color: white; }
+        .badge-user { background: linear-gradient(45deg, #a855f7, #ec4899); color: white; }
         
         .loading-text { text-align: center; color: var(--kurd-gold); font-size: 13px; font-weight: bold; padding: 5px; }
     </style>
@@ -116,8 +125,9 @@
             <div class="sun-icon"></div>
             <div class="kurd-logo">KURD <span>tv</span></div>
         </div>
-        <div class="header-info">
-            <p>Mega Live Stream • +50,000 Channels</p>
+        <div class="header-actions">
+            <!-- دوگما شاهانە یا زێدەکرنا خێرا یا کەناڵان ب شێوازێ + -->
+            <button class="add-channel-btn" onclick="addNewChannelPrompt()" title="زێدەکرنا کەناڵێ نوو">+</button>
         </div>
     </div>
 
@@ -136,11 +146,13 @@
             <div class="tabs" id="countries-bar">
                 <button class="tab-btn active" onclick="switchTab('all', this)">🌍 هەمی کەناڵ</button>
                 <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان (ناوخۆ)</button>
+                <button class="tab-btn" onclick="switchTab('user-added', this)">⭐ یێن من زێدەکرین</button>
             </div>
 
             <div id="loading-status" class="loading-text">خۆکار لۆدکرنا ٥٠,٠٠٠ کەناڵان...</div>
 
             <div class="channel-list" id="channel-box">
+                <!-- کەناڵێن ناوخۆیی یێن جێگیرکری -->
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV Live', true)"><span>📺 Rudaw TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24 Live', true)"><span>📺 Kurdistan 24</span> <span class="badge badge-kurd">ناوخۆ</span></div>
                 <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
@@ -167,8 +179,8 @@
         'br': '🇧🇷 بەڕازیل', 'ir': '🇮🇷 ئێران', 'iq': '🇮🇶 عێراق', 'eg': '🇪🇬 میسر',
         'sa': '🇸🇦 سعوودیە', 'il': '🇮🇱 ئیسرائیل', 'fr': '🇫🇷 فڕەنسا', 'de': '🇩🇪 ئەڵمانیا', 
         'tr': '🇹🇷 تورکیا', 'sy': '🇸🇾 سووریا', 'ae': '🇦🇪 ئیمارات', 'uk': '🇬🇧 بەریتانیا',
-        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯ﭘ ژاپۆن',
-        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦﷼ ئەرجەنتین'
+        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯🇵 ژاپۆن',
+        'ca': '🇨🇦 کەنەدا', 'nl': '🇳🇱 هۆڵەندا', 'mx': '🇲🇽 مەکسیک', 'ar': '🇦🇷 ئەرجەنتین'
     };
 
     function playLive(url, name, isYoutube) {
@@ -210,9 +222,53 @@
         });
     }
 
+    // فەنکشنا زێدەکرنا خێرا یا کەناڵێ نوو ب دوگما +
+    function addNewChannelPrompt() {
+        let name = prompt("ناڤێ کەناڵێ نوو بنڤێسه:");
+        if (!name) return;
+        
+        let url = prompt("لینکێ کەناڵی (یوتیوب یان لینکا لایڤا m3u8) دابنی:");
+        if (!url) return;
+
+        let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
+        
+        // گۆڕینی لینکا ئاسایی یا یوتیوب بۆ لینکا embed ئەگەر پێویست بکەت
+        if (isYoutube && !url.includes("embed/")) {
+            let videoId = "";
+            if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
+            else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
+            if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        let newChannel = { name: name, url: url, isYoutube: isYoutube };
+        
+        // پاشکەفتکرن د ناڤ بیرۆکا وێبگەڕی دا (LocalStorage)
+        let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+        savedChannels.push(newChannel);
+        localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+        
+        // نیشاندانا ئێکسەر د لیستێ دا
+        renderUserChannel(newChannel);
+        alert(`کەناڵێ "${name}" ب سەرکەفتوویی زێدەبوو!`);
+    }
+
+    function renderUserChannel(ch) {
+        const box = document.getElementById('channel-box');
+        let itemHtml = `<div class="channel-item" data-country="user-added" onclick="playLive('${ch.url}', '${ch.name.replace(/'/g, "\\'")}', ${ch.isYoutube})"><span>📺 ${ch.name}</span> <span class="badge badge-user">زێدەکری</span></div>`;
+        box.insertAdjacentHTML('afterbegin', itemHtml); // دەکەڤیتە سەرێ لیستێ
+    }
+
+    function loadSavedChannels() {
+        let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+        savedChannels.forEach(ch => renderUserChannel(ch));
+    }
+
+    // لۆدکرنا تەواوێ داتابەیسا جیهانی
     fetch('https://iptv-org.github.io/iptv/index.m3u')
         .then(res => res.text())
         .then(data => {
+            loadSavedChannels(); // لۆدکرنا کەناڵێن تە ل دەستپێکێ
+            
             const lines = data.split('\n');
             const box = document.getElementById('channel-box');
             const tabsBar = document.getElementById('countries-bar');

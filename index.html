@@ -21,21 +21,20 @@
     <p>کەناڵێ خۆ هەڵبژێرە بۆ تەماشاکرنێ</p>
     
     <div class="video-container">
-        <!-- کەناڵێ دەستپێکێ (کوردستان ٢٤) -->
-        <iframe id="main-player" src="https://www.youtube.com/embed/live_stream?channel=UC4v3Z_8-Zf9T-gPekvT0uWw" allowfullscreen></iframe>
+        <iframe id="main-player" src="https://www.youtube.com/embed/n4_8LdY-p8M" allowfullscreen></iframe>
     </div>
 
     <div class="grid">
-        <button class="btn" onclick="change('UC4v3Z_8-Zf9T-gPekvT0uWw')">Kurdistan 24</button>
-        <button class="btn" onclick="change('UC80V9gGis_32ZisZfofY8vQ')">Rudaw TV</button>
-        <button class="btn" onclick="change('UCNye-wNBqNL5ZzHSJtiW_pA')">Al Jazeera (ar)</button>
-        <button class="btn" onclick="change('UCqFaG5hNflSgOHLkuA80y9w')">TRT World (en)</button>
+        <button class="btn" onclick="change('https://www.youtube.com/embed/n4_8LdY-p8M')">Kurdistan 24</button>
+        <button class="btn" onclick="change('https://www.youtube.com/embed/yF8zNf-48g0')">Rudaw TV</button>
+        <button class="btn" onclick="change('https://www.youtube.com/embed/bNyUyrR0PHo')">Al Jazeera (ar)</button>
+        <button class="btn" onclick="change('https://www.youtube.com/embed/J78S_uX8CqU')">TRT World</button>
     </div>
 </div>
 
 <script>
-    function change(channelId) {
-        document.getElementById('main-player').src = "https://www.youtube.com/embed/live_stream?channel=" + channelId;
+    function change(embedUrl) {
+        document.getElementById('main-player').src = embedUrl;
     }
 </script>
 

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kurd & World Premium TV</title>
-    <!-- لۆدکرنا پلەیەرێ پیشەیی یێ IPTV -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
@@ -42,7 +41,6 @@
         .header h1 { margin: 0; font-size: 30px; color: #fff; }
         .header p { margin: 8px 0 0 0; color: var(--kurd-gold); font-weight: 600; font-size: 15px; }
 
-        /* لایەنی دابەشکرنا شاشەیێ */
         .main-layout { display: flex; flex-direction: column; gap: 25px; }
         @media (min-width: 992px) { .main-layout { flex-direction: row; } }
 
@@ -53,23 +51,25 @@
         
         #current-title { margin-top: 15px; font-size: 20px; color: var(--kurd-gold); font-weight: bold; text-align: right; background: #1f2937; padding: 10px 15px; border-radius: 8px; border-right: 4px solid var(--kurd-red); }
 
-        /* بەشێ کەتەلۆگ و لیستا کەناڵان */
-        .sidebar-section { flex: 1.2; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; max-height: 750px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        /* بەشێ کەتەلۆگێ وڵاتان */
+        .sidebar-section { flex: 1.2; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; max-height: 850px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
         
         /* سندوقا گەڕیانێ */
         .search-box { width: 100%; padding: 14px 18px; background: #0b0f17; border: 1px solid #374151; color: white; border-radius: 10px; margin-bottom: 15px; box-sizing: border-box; text-align: right; font-size: 15px; }
 
-        /* دیزاینێ نوو یێ وڵاتان (مێزەکا دیار و جودا) */
+        /* سندوقا مەزن یا هەمی دەوڵەتان کو خۆکار زیاد دەبن */
         .tabs-title { font-size: 14px; color: var(--kurd-gold); margin-bottom: 8px; font-weight: bold; text-align: right; }
         .tabs { 
             display: flex;
-            flex-wrap: wrap; /* ڕێ پێدان بە کەرتبوونی دوگمەکان بۆ ڕێزێن خوارێ دا بەرزە نەبن */
+            flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: #0b0f17;
             padding: 10px;
             border-radius: 10px;
             border: 1px solid #1f2937;
+            max-height: 220px;
+            overflow-y: auto;
         }
         
         .tab-btn { 
@@ -82,7 +82,6 @@
             font-weight: bold; 
             font-size: 13px; 
             transition: 0.2s;
-            flex-grow: 1; /* پڕکردنەوەی بۆشاییەکان بۆ جوانکاری */
             text-align: center;
         }
         .tab-btn.active, .tab-btn:hover { 
@@ -92,7 +91,7 @@
         }
 
         /* لیستا کەناڵان */
-        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 350px; }
+        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 420px; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; background: #1f2937; border: 1px solid #374151; color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.2s; }
@@ -100,12 +99,7 @@
         
         .badge { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: bold; white-space: nowrap; }
         .badge-kurd { background: linear-gradient(45deg, var(--kurd-red), var(--kurd-gold)); color: white; }
-        .badge-turk { background: #dc2626; color: white; }
-        .badge-france { background: #002395; color: white; }
-        .badge-germany { background: #ffcc00; color: black; }
-        .badge-afghan { background: #006400; color: white; }
-        .badge-arab { background: #2563eb; color: white; }
-        .badge-world { background: #4b5563; color: white; }
+        .badge-global { background: #4b5563; color: white; }
     </style>
 </head>
 <body>
@@ -113,50 +107,38 @@
 <div class="container">
     <div class="header">
         <h1>پلاتفۆرمێ شاهانە یێ کەناڵێن کوردی و جیهانی</h1>
-        <p>پەخشێ ڕاستەوخۆ دابەشەکری ل سەر بنەمایێ وڵاتان ب شێوازەکێ مۆدێرن</p>
+        <p>پەخشێ ڕاستەوخۆ یێ فەرمی - تەمامێ دەوڵەتێن جیهانێ و کەناڵێن ناوخۆ</p>
     </div>
 
     <div class="main-layout">
-        <!-- شاشا ڤیدیۆیێ -->
-        <div class="player-section" id="player-section">
+        <div class="player-section">
             <div id="player-container" class="video-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
             </div>
             <div id="current-title">کەناڵێ نوکە: Rudaw TV Live</div>
         </div>
 
-        <!-- بەشێ کەتەلۆگێ وڵاتان -->
         <div class="sidebar-section">
-            <!-- سندوقا گەڕیانێ گشتی -->
-            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بنڤێسە..." oninput="filterChannels()">
+            <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی بنڤێسە..." oninput="filterChannels()">
             
-            <!-- ناڤێ جوداکرنا وڵاتان کو ئێدی ل سەر چەند دێڕان کەرت دبیت و بەرزە نابیت -->
-            <div class="tabs-title">فیلتەرکرن ل سەر بنەمایێ وڵاتان:</div>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('all', this)">هەمی کەناڵ</button>
-                <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان</button>
-                <button class="tab-btn" onclick="switchTab('turkish', this)">🇹🇷 تورکیا</button>
-                <button class="tab-btn" onclick="switchTab('france', this)">🇫🇷 فڕەنسا</button>
-                <button class="tab-btn" onclick="switchTab('germany', this)">🇩🇪 ئەڵمانیا</button>
-                <button class="tab-btn" onclick="switchTab('afghan', this)">🇦🇫 ئەفغانستان</button>
-                <button class="tab-btn" onclick="switchTab('arabic', this)">🏴 العربية</button>
-                <button class="tab-btn" onclick="switchTab('world', this)">🌐 جیهانی</button>
-            </div>
+            <div class="tabs-title">لیستا گشتی یا دەوڵەتێن جیهانێ:</div>
+            <div class="tabs" id="countries-bar">
+                <button class="tab-btn active" onclick="switchTab('all', this)">🌍 هەمی کەناڵ</button>
+                <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان (ناوخۆ)</button>
+                </div>
 
-            <!-- لیستا کەناڵان -->
             <div class="channel-list" id="channel-box">
-                <!-- کەناڵێن کوردی یێن جێگیرکری یێن سەرەکی -->
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV', true)"><span>📺 Rudaw TV Live</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24', true)"><span>📺 Kurdistan 24</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/V6W3o-GfP98', 'Gali Kurdistan', true)"><span>📺 Gali Kurdistan</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/xLzYhY7P_iI', 'Zagros TV', true)"><span>📺 Zagros TV</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/Z8p0mY9b5pA', 'Ava Entertainment', true)"><span>📺 Ava TV</span> <span class="badge badge-kurd">کوردستان</span></div>
-                <div class="channel-item" data-cat="kurd" onclick="playLive('https://www.youtube.com/embed/Uv4FpCq7pC4', 'Kurdstat TV', true)"><span>📺 Kurdstat</span> <span class="badge badge-kurd">کوردستان</span></div>
-
-                <!-- جێگیرێن وڵاتێن دی بۆ نموونە -->
-                <div class="channel-item" data-cat="france" onclick="playLive('https://live.france24.com/france24/en/vdo_en.m3u8', 'France 24 English', false)"><span>📺 France 24 Eng</span> <span class="badge badge-france">فڕەنسا</span></div>
-                <div class="channel-item" data-cat="turkish" onclick="playLive('https://www.youtube.com/embed/J78S_uX8CqU', 'TRT World', true)"><span>📺 TRT World</span> <span class="badge badge-turk">تورکیا</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV Live', true)"><span>📺 Rudaw TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24 Live', true)"><span>📺 Kurdistan 24</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)"><span>📺 Waar TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/V6W3o-GfP98', 'Gali Kurdistan Live', true)"><span>📺 Gali Kurdistan</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/xLzYhY7P_iI', 'Zagros TV Live', true)"><span>📺 Zagros TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/Z8p0mY9b5pA', 'Ava Entertainment Live', true)"><span>📺 Ava TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/Uv4FpCq7pC4', 'Kurdstat TV Live', true)"><span>📺 Kurdstat</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/o0kR6B-6v3o', 'Speda TV Live', true)"><span>📺 Speda TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/v9C2oQ7_O4k', 'Payam TV Live', true)"><span>📺 Payam TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/tMdfpAAnpIQ', 'NRT HD Live', true)"><span>📺 NRT TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
+                <div class="channel-item" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/J7_YitU_V0Y', 'Kurdistan TV Live', true)"><span>📺 Kurdistan TV</span> <span class="badge badge-kurd">ناوخۆ</span></div>
             </div>
         </div>
     </div>
@@ -165,7 +147,18 @@
 <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
 <script>
     let player = null;
-    let currentCategory = 'all';
+    let currentCountryCode = 'all';
+
+    // فەرهەنگا ناڤێن وڵاتان ب کوردی
+    const countryTranslations = {
+        'us': '🇺🇸 ئەمریکا', 'it': '🇮🇹 ئیتالیا', 'in': '🇮🇳 هیندستان', 'pk': '🇵🇰 پاکستان',
+        'br': '🇧🇷 بەڕازیل', 'ir': '🇮🇷 ئێران', 'iq': '🇮🇶 عێراق', 'eg': '🇪🇬 میسر',
+        'sa': '🇸🇦 سعوودیە', 'il': '🇮🇱 ئیسرائیل', 'bh': '🇧🇭 بەحرەین', 'qa': '🇶🇦 قەتەر',
+        'ly': '🇱🇾 لیبیا', 'fr': '🇫🇷 فڕەنسا', 'de': '🇩🇪 ئەڵمانیا', 'tr': '🇹🇷 تورکیا',
+        'af': '🇦🇫 ئەفغانستان', 'sy': '🇸🇾 سووریا', 'jo': '🇯🇴 ئوردن', 'ae': '🇦🇪 ئیمارات',
+        'kw': '🇰🇼 کوێت', 'om': '🇴🇲 عۆمان', 'lb': '🇱🇧 لوبنان', 'uk': '🇬🇧 بەریتانیا',
+        'es': '🇪🇸 ئیسپانیا', 'ru': '🇷🇺 ڕووسیا', 'cn': '🇨🇳 چین', 'jp': '🇯🇵 ژاپۆن'
+    };
 
     function playLive(url, name, isYoutube) {
         document.getElementById('current-title').innerText = "کەناڵێ نوکە: " + name;
@@ -184,8 +177,8 @@
         }
     }
 
-    function switchTab(cat, btn) {
-        currentCategory = cat;
+    function switchTab(countryCode, btn) {
+        currentCountryCode = countryCode;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         filterChannels();
@@ -196,13 +189,13 @@
         let items = document.querySelectorAll('.channel-item');
         
         items.forEach(item => {
-            let cat = item.getAttribute('data-cat');
+            let country = item.getAttribute('data-country');
             let text = item.innerText.toLowerCase();
             
-            let matchesCategory = (currentCategory === 'all' || cat === currentCategory);
+            let matchesCountry = (currentCountryCode === 'all' || country === currentCountryCode);
             let matchesSearch = text.includes(query);
             
-            if (matchesCategory && matchesSearch) {
+            if (matchesCountry && matchesSearch) {
                 item.style.display = "flex";
             } else {
                 item.style.display = "none";
@@ -210,50 +203,30 @@
         });
     }
 
-    // لۆدکردنا خۆکار یا کەناڵێن جیهانی و فیلتەرکردنا پێشکەفتی یا وڵاتان
+    // لۆدکرنا ئۆتۆماتیکی یا هەمی دەوڵەتێن جیهانی
     fetch('https://iptv-org.github.io/iptv/index.m3u')
         .then(res => res.text())
         .then(data => {
             const lines = data.split('\n');
             const box = document.getElementById('channel-box');
-            let currentName = '';
-            let html = '';
+            const tabsBar = document.getElementById('countries-bar');
             
-            for (let i = 0; i < lines.length && i < 5000; i++) {
+            let currentName = '';
+            let currentCountry = 'world';
+            let htmlChannels = '';
+            let detectedCountries = new Set(); // بۆ کۆمکرنا دەوڵەتێن کو کەناڵ تێدا هەن
+
+            for (let i = 0; i < lines.length && i < 8000; i++) {
                 let line = lines[i].trim();
+                
                 if (line.startsWith('#EXTINF:')) {
                     currentName = line.split(',')[1] || '';
-                } else if (line.startsWith('http') && !line.includes('group-title') && !line.includes('Chrome')) {
-                    let url = line;
-                    let cat = 'world';
-                    let badgeClass = 'badge-world';
-                    let badgeText = 'جیهانی';
+                    currentCountry = 'world';
+                    
+                    if(line.includes('tvg-country="')) {
+                        let code = line.split('tvg-country="')[1].split('"')[0].toLowerCase();
+                        currentCountry = code;
+                    }
                     
                     let lowerName = currentName.toLowerCase();
-                    if (currentName.length > 40 || currentName.includes('Edge') || currentName.includes('Safari')) continue;
-
-                    if(lowerName.includes('kurd') || lowerName.includes('rudaw') || lowerName.includes('waar') || lowerName.includes('kurdistan')) { 
-                        cat = 'kurd'; badgeClass = 'badge-kurd'; badgeText = 'کوردستان'; 
-                    } else if(lowerName.includes('trt') || lowerName.includes('turk') || lowerName.includes('atv t') || lowerName.includes('haber')) { 
-                        cat = 'turkish'; badgeClass = 'badge-turk'; badgeText = 'تورکیا'; 
-                    } else if(lowerName.includes('france') || lowerName.includes('fr france') || lowerName.includes('m6')) { 
-                        cat = 'france'; badgeClass = 'badge-france'; badgeText = 'فڕەنسا'; 
-                    } else if(lowerName.includes('ard') || lowerName.includes('zdf') || lowerName.includes('deutsch') || lowerName.includes('wdr')) { 
-                        cat = 'germany'; badgeClass = 'badge-germany'; badgeText = 'ئەڵمانیا'; 
-                    } else if(lowerName.includes('afghan') || lowerName.includes('ariana') || lowerName.includes('tolo')) { 
-                        cat = 'afghan'; badgeClass = 'badge-afghan'; badgeText = 'ئەفغانستان'; 
-                    } else if(lowerName.includes('mbc') || lowerName.includes('al jazeera') || lowerName.includes('arab') || lowerName.includes('rotana')) { 
-                        cat = 'arabic'; badgeClass = 'badge-arab'; badgeText = 'العربية'; 
-                    }
-                    
-                    if(currentName && url) {
-                        html += `<div class="channel-item" data-cat="${cat}" onclick="playLive('${url}', '${currentName}', false)"><span>📺 ${currentName}</span> <span class="badge ${badgeClass}">${badgeText}</span></div>`;
-                    }
-                }
-            }
-            box.innerHTML += html;
-        });
-</script>
-
-</body>
-</html>
+                    if(

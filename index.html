@@ -47,52 +47,52 @@
         @media (min-width: 992px) { .main-layout { flex-direction: row; } }
 
         /* شاشا ڤیدیۆیێ */
-        .player-section { flex: 2.2; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; justify-content: center; }
+        .player-section { flex: 2; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; justify-content: center; }
         .video-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.8); border: 1px solid #374151; position: relative; }
         .video-wrapper iframe, .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; }
         
         #current-title { margin-top: 15px; font-size: 20px; color: var(--kurd-gold); font-weight: bold; text-align: right; background: #1f2937; padding: 10px 15px; border-radius: 8px; border-right: 4px solid var(--kurd-red); }
 
         /* بەشێ کەتەلۆگ و لیستا کەناڵان */
-        .sidebar-section { flex: 1.1; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; max-height: 720px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .sidebar-section { flex: 1.2; background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid #1f2937; display: flex; flex-direction: column; max-height: 750px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
         
         /* سندوقا گەڕیانێ */
         .search-box { width: 100%; padding: 14px 18px; background: #0b0f17; border: 1px solid #374151; color: white; border-radius: 10px; margin-bottom: 15px; box-sizing: border-box; text-align: right; font-size: 15px; }
 
-        /* هێڵا خوولۆک یا وڵاتان (Country Slider) - ئێدی چ جاران بەرزە نابن */
+        /* دیزاینێ نوو یێ وڵاتان (مێزەکا دیار و جودا) */
+        .tabs-title { font-size: 14px; color: var(--kurd-gold); margin-bottom: 8px; font-weight: bold; text-align: right; }
         .tabs { 
             display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #1f2937;
-            scrollbar-width: thin;
+            flex-wrap: wrap; /* ڕێ پێدان بە کەرتبوونی دوگمەکان بۆ ڕێزێن خوارێ دا بەرزە نەبن */
+            gap: 6px;
+            margin-bottom: 20px;
+            background: #0b0f17;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #1f2937;
         }
-        .tabs::-webkit-scrollbar { height: 6px; }
-        .tabs::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
         
         .tab-btn { 
             background: #1f2937; 
             border: 1px solid #374151; 
             color: #f3f4f6; 
-            padding: 10px 22px; 
-            border-radius: 8px; 
+            padding: 8px 14px; 
+            border-radius: 6px; 
             cursor: pointer; 
             font-weight: bold; 
-            white-space: nowrap;
-            font-size: 14px; 
+            font-size: 13px; 
             transition: 0.2s;
+            flex-grow: 1; /* پڕکردنەوەی بۆشاییەکان بۆ جوانکاری */
+            text-align: center;
         }
         .tab-btn.active, .tab-btn:hover { 
             background: var(--kurd-gold); 
             color: #000; 
             border-color: var(--kurd-gold); 
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); 
         }
 
         /* لیستا کەناڵان */
-        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+        .channel-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; height: 350px; }
         .channel-list::-webkit-scrollbar { width: 6px; }
         .channel-list::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
         .channel-item { display: flex; align-items: center; justify-content: space-between; background: #1f2937; border: 1px solid #374151; color: white; padding: 14px; text-align: right; border-radius: 10px; cursor: pointer; transition: 0.2s; }
@@ -127,9 +127,11 @@
 
         <!-- بەشێ کەتەلۆگێ وڵاتان -->
         <div class="sidebar-section">
+            <!-- سندوقا گەڕیانێ گشتی -->
             <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی ل ڤێرێ بنڤێسە..." oninput="filterChannels()">
             
-            <!-- مێزو لایدرێ نوو یێ وڵاتان -->
+            <!-- ناڤێ جوداکرنا وڵاتان کو ئێدی ل سەر چەند دێڕان کەرت دبیت و بەرزە نابیت -->
+            <div class="tabs-title">فیلتەرکرن ل سەر بنەمایێ وڵاتان:</div>
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab('all', this)">هەمی کەناڵ</button>
                 <button class="tab-btn" onclick="switchTab('kurd', this)">☀️ کوردستان</button>
@@ -208,7 +210,7 @@
         });
     }
 
-    // سیستەمێ فیلتەرکرنا خۆکار یێ وڵاتان ژ داتابەیسێ
+    // لۆدکردنا خۆکار یا کەناڵێن جیهانی و فیلتەرکردنا پێشکەفتی یا وڵاتان
     fetch('https://iptv-org.github.io/iptv/index.m3u')
         .then(res => res.text())
         .then(data => {
@@ -230,12 +232,11 @@
                     let lowerName = currentName.toLowerCase();
                     if (currentName.length > 40 || currentName.includes('Edge') || currentName.includes('Safari')) continue;
 
-                    // دابەشکرنا هۆشمەند بۆ وڵاتێن تە داواکرین
                     if(lowerName.includes('kurd') || lowerName.includes('rudaw') || lowerName.includes('waar') || lowerName.includes('kurdistan')) { 
                         cat = 'kurd'; badgeClass = 'badge-kurd'; badgeText = 'کوردستان'; 
                     } else if(lowerName.includes('trt') || lowerName.includes('turk') || lowerName.includes('atv t') || lowerName.includes('haber')) { 
                         cat = 'turkish'; badgeClass = 'badge-turk'; badgeText = 'تورکیا'; 
-                    } else if(lowerName.includes('france') || lowerName.includes('fr France') || lowerName.includes('m6')) { 
+                    } else if(lowerName.includes('france') || lowerName.includes('fr france') || lowerName.includes('m6')) { 
                         cat = 'france'; badgeClass = 'badge-france'; badgeText = 'فڕەنسا'; 
                     } else if(lowerName.includes('ard') || lowerName.includes('zdf') || lowerName.includes('deutsch') || lowerName.includes('wdr')) { 
                         cat = 'germany'; badgeClass = 'badge-germany'; badgeText = 'ئەڵمانیا'; 

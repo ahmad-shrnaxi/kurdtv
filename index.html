@@ -85,7 +85,43 @@
     <div class="navbar">
         <div class="logo-area"><div class="sun-logo"></div><div class="logo-text">KURD <span>tv</span></div></div>
         <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن</button>
-          }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    function filterChannels() {
+        let query = document.getElementById('search').value.toLowerCase();
+        let items = document.querySelectorAll('.channel-item');
+        
+        items.forEach(item => {
+            let country = item.getAttribute('data-country');
+            let text = item.innerText.toLowerCase();
+            
+            let matchesCountry = (currentCountryCode === 'all' || country === currentCountryCode);
+            let matchesSearch = text.includes(query);
+            
+            item.style.display = (matchesCountry && matchesSearch) ? "flex" : "none";
+        });
+    }
 
     // زێدەکرنا خێرا
     function addNewChannelPrompt() {
@@ -102,6 +138,67 @@
             else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
             if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
         }
+
+        let id = 'ch_' + Date.now(); // پێدانا ناسنامەکا جیاواز بۆ هەر کەناڵەکێ
+        let newChannel = { id: id, name: name, url: url, isYoutube: isYoutube };
+        
+        let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+        savedChannels.push(newChannel);
+        localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+        
+        renderUserChannel(newChannel);
+    }
+
+    // دروستکرنا کەناڵێن دەستکاریکری ب سیستەمێ کلیکا درێژ یان کلیکا ڕاستێ (بێ دوگما X)
+    function renderUserChannel(ch) {
+        const box = document.getElementById('channel-box');
+        const div = document.createElement('div');
+        div.className = 'channel-item';
+        div.setAttribute('data-country', 'user-added');
+        div.setAttribute('id', ch.id);
+        div.innerHTML = `<span>📺 ${ch.name}</span> <span class="badge badge-user">زێدەکری</span>`;
+        
+        // ڕووداوێ لێدانێ ب کلیکا ئاسایی
+        div.addEventListener('click', function() {
+            playLive(ch.url, ch.name, ch.isYoutube);
+        });
+
+        // سیستەمێ ژێبرنا پاراستی ب کلیکا ڕاستێ (ContextMenu)
+        div.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            confirmDeleteChannel(ch.id, ch.name);
+        });
+
+        // سیستەمێ ژێبرنا پاراستی ب کلیکا درێژ (Long Press) بۆ مۆبایلان
+        let pressTimer;
+        div.addEventListener('touchstart', function() {
+            pressTimer = setTimeout(function() {
+                confirmDeleteChannel(ch.id, ch.name);
+            }, 1500); //گرتن بۆ چرکە و نیڤەکێ
+        });
+        div.addEventListener('touchend', function() { clearTimeout(pressTimer); });
+
+        box.insertBefore(div, box.firstChild);
+    }
+
+    function confirmDeleteChannel(id, name) {
+        let ask = confirm(`🚨 ئایا تۆ پشت ڕاستی دڤێت کەناڵێ "${name}" ب تەمامی ژێ ببەی؟`);
+        if (ask) {
+            let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+            savedChannels = savedChannels.filter(c => c.id !== id);
+            localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+            document.getElementById(id).remove();
+        }
+    }
+
+
+
+
+
+
+
+
+        
     </div>
 
     <div class="main-container">

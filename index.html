@@ -3,16 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KURD tv - Global Shared Channels</title>
+    <title>KURD tv - Personal Custom Mode</title>
     
-    <!-- Video.js Player CSS -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <!-- FontAwesome ئایکۆن -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase SDKs - پێویست بۆ بەستنەوەی گشتی هەموو بەکارهێنەران -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
     <style>
         :root {
@@ -56,12 +50,13 @@
 
         /* Tabs */
         .tabs-container { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+        .tabs-container::-webkit-scrollbar { height: 2px; }
         .tab-item { background: var(--bg-card); color: var(--text-muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; white-space: nowrap; }
         .tab-item.active { background: var(--kurd-gold); color: #000; }
 
         .status-bar { font-size: 11px; color: var(--kurd-gold); text-align: center; font-weight: bold; }
 
-        /* Single Column Grid */
+        /* Grid - 1 Column */
         .channel-grid { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
 
         .channel-card { 
@@ -93,11 +88,10 @@
 
     <div class="navbar">
         <div class="logo-area"><div class="sun-logo"></div><div class="logo-text">KURD <span>tv</span></div></div>
-        <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن بۆ هەمووان</button>
+        <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن</button>
     </div>
 
     <div class="main-container">
-        <!-- Player -->
         <div class="content-section">
             <div id="player-container" class="player-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
@@ -108,7 +102,6 @@
             </div>
         </div>
 
-        <!-- Sidebar Section -->
         <div class="sidebar-section">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -121,7 +114,7 @@
                 <div class="tab-item" onclick="switchTab('sport', this)">⚽ وەرزش & beIN</div>
                 <div class="tab-item" onclick="switchTab('kids', this)">🧸 زارۆک</div>
                 <div class="tab-item" onclick="switchTab('movie', this)">🎬 فلیم</div>
-                <div class="tab-item" onclick="switchTab('user-added', this)">⭐ یێن گشتی (زێدەکری)</div>
+                <div class="tab-item" onclick="switchTab('user-added', this)">⭐ یێن من</div>
             </div>
 
             <div id="loading-status" class="status-bar">چاوڕێبە... کەنال دهێنە ڕێکخستن</div>
@@ -131,24 +124,9 @@
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
     <script>
-        // --- لێرەدا زانیارییەکانی فایەربەیسی خۆت دابنێ (Firebase Config) ---
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        // دەستپێکردنی فایەربەیس
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
         let player = null;
         let currentCategory = 'all';
         let allChannelsList = []; 
-        let userChannelsList = []; // بۆ هەڵگرتنی ئەو کەناڵانەی هەمووان زیادی دەکەن
         let filteredList = [];
 
         const filterRules = {
@@ -167,139 +145,4 @@
                 container.innerHTML = `<iframe id="yt-player" src="${url}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
             } else {
                 container.innerHTML = `<video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%"><source src="${url}" type="application/x-mpegURL"></video>`;
-                player = videojs('live-player'); player.play();
-            }
-        }
-
-        function switchTab(catCode, btn) {
-            currentCategory = catCode;
-            document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterChannels();
-        }
-
-        function filterChannels() {
-            let query = document.getElementById('search').value.toLowerCase();
-            
-            // تێکەڵکردنی کەناڵە گشتیەکان و کەناڵە زێدەکراوەکانی فایەربەیس
-            let combined = [...userChannelsList, ...allChannelsList];
-
-            filteredList = combined.filter(ch => {
-                let matchesCat = (currentCategory === 'all' || ch.type === currentCategory);
-                let matchesSearch = ch.name.toLowerCase().includes(query);
-                return matchesCat && matchesSearch;
-            });
-            renderOptimizedGrid();
-        }
-
-        function renderOptimizedGrid() {
-            const box = document.getElementById('channel-box');
-            box.innerHTML = ''; 
-            let displayLimit = Math.min(filteredList.length, 150); 
-            
-            filteredList.slice(0, displayLimit).forEach(ch => {
-                let dotClass = 'dot-global';
-                let labelName = 'IPTV';
-
-                if(ch.type === 'kurd') { dotClass = 'dot-kurd'; labelName = 'کوردستان'; }
-                else if(ch.type === 'sport') { dotClass = 'dot-sport'; labelName = 'وەرزش'; }
-                else if(ch.type === 'user-added') { dotClass = 'dot-user'; labelName = 'گشتی'; }
-
-                const div = document.createElement('div');
-                div.className = 'channel-card';
-                div.innerHTML = `
-                    <div class="channel-title">📺 ${ch.name}</div>
-                    <div class="channel-badge">
-                        ${labelName}
-                        <span class="badge-dot ${dotClass}"></span>
-                    </div>`;
-
-                div.addEventListener('click', function() {
-                    playLive(ch.url, ch.name, ch.isYoutube);
-                });
-
-                // تەنها ئەو کەسەی کەناڵەکەی داناوە یان ئەدمین دەتوانێت بیسڕێتەوە (بە کلیکی درێژ)
-                if(ch.type === 'user-added') {
-                    div.addEventListener('contextmenu', function(e) { e.preventDefault(); confirmDeleteChannel(ch.id, ch.name); });
-                    let pressTimer;
-                    div.addEventListener('touchstart', function() { pressTimer = setTimeout(() => confirmDeleteChannel(ch.id, ch.name), 1500); });
-                    div.addEventListener('touchend', function() { clearTimeout(pressTimer); });
-                }
-
-                box.appendChild(div);
-            });
-            document.getElementById('loading-status').innerText = `کەنالێن بەردەست: ${filteredList.length}`;
-        }
-
-        // زێدەکرن بۆ ناو فایەربەیس (بۆ ئەوەی بۆ هەموو جیهان زیاد ببێت)
-        function addNewChannelPrompt() {
-            let name = prompt("ناڤێ کەناڵێ نوو بۆ هەموو کەسان:");
-            if (!name) return;
-            let url = prompt("لینکێ کەناڵی (m3u8 یان یوتیوب):");
-            if (!url) return;
-
-            let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
-            if (isYoutube && !url.includes("embed/")) {
-                let videoId = "";
-                if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
-                else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
-                if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
-            }
-
-            let id = 'ch_' + Date.now(); 
-            let newChannel = { id: id, type: 'user-added', name: name, url: url, isYoutube: isYoutube };
-            
-            // ناردن بۆ فایەربەیس
-            db.ref('global_channels/' + id).set(newChannel);
-        }
-
-        function confirmDeleteChannel(id, name) {
-            let ask = confirm(`🚨 دەتەوێت کەناڵی "${name}" بۆ هەموو کەسێک بسڕیتەوە؟`);
-            if (ask) { db.ref('global_channels/' + id).remove(); }
-        }
-
-        // گۆڕینی کاتی ڕاستەوخۆ لەگەڵ فایەربەیس (هەرکەسێک زیادی بکات لای هەمووان خۆکارانە دێت)
-        db.ref('global_channels/').on('value', (snapshot) => {
-            userChannelsList = [];
-            snapshot.forEach((childSnapshot) => {
-                userChannelsList.push(childSnapshot.val());
-            });
-            filterChannels();
-        });
-
-        // لۆدکردنی کەناڵە جێگیرەکان
-        fetch('https://iptv-org.github.io/iptv/index.m3u')
-            .then(res => res.text())
-            .then(data => {
-                const lines = data.split('\n');
-                let currentName = '';
-
-                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/yF8zNf-48g0', name: 'Rudaw TV HD', isYoutube: true });
-                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/n4_8LdY-p8M', name: 'Kurdistan 24', isYoutube: true });
-                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/hd_S3b8F_M0', name: 'Waar TV', isYoutube: true });
-
-                for(let i=1; i<=16; i++) {
-                    allChannelsList.push({ type: 'sport', url: `http://premium-stream-link/bein${i}.m3u8`, name: `beIN SPORTS ${i} HD`, isYoutube: false });
-                }
-
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i].trim();
-                    if (line.startsWith('#EXTINF:')) { currentName = line.split(',')[1] || ''; } 
-                    else if (line.startsWith('http') && currentName) {
-                        let lName = currentName.toLowerCase();
-                        let detectedCat = 'global';
-                        if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('kurdistan')) detectedCat = 'kurd';
-                        else {
-                            for (let key in filterRules) {
-                                if (filterRules[key].some(kwd => lName.includes(kwd))) { detectedCat = key; break; }
-                            }
-                        }
-                        if(!lName.includes('bein')) { allChannelsList.push({ type: detectedCat, url: line, name: currentName, isYoutube: false }); }
-                        currentName = '';
-                    }
-                }
-                filterChannels(); 
-            });
-    </script>
-</body>
-</html>
+                player = videojs

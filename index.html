@@ -2,8 +2,8 @@
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KURD tv - Personal Custom Mode</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-color=1.0, user-scalable=no">
+    <title>KURD tv - Single Column Premium</title>
     
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -56,9 +56,10 @@
 
         .status-bar { font-size: 11px; color: var(--kurd-gold); text-align: center; font-weight: bold; }
 
-        /* Grid - 1 Column */
+        /* Grid - گۆڕین بۆ ئێک ڕێز (1 Column) */
         .channel-grid { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
 
+        /* دیزاینا نوو یا کارتی ب شێوازێ ئێک ڕێز */
         .channel-card { 
             background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; 
             padding: 10px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; 
@@ -76,6 +77,7 @@
         .dot-user { background-color: var(--kurd-green); }
         .dot-global { background-color: #9ca3af; }
 
+        /* Responsive Media Query */
         @media (max-width: 992px) {
             body { overflow-y: auto; height: auto; }
             .main-container { flex-direction: column; height: auto; overflow: visible; }
@@ -129,20 +131,181 @@
         let allChannelsList = []; 
         let filteredList = [];
 
+        // ڕێسایێن پاقژکرنا ناڤێن وەرزشی دا چ تێکچوون نەبیت
         const filterRules = {
-            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football', 'ssc', 'koora'],
-            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'zarok'],
-            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'افلام']
+            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football', 'ssc', 'koora', 'kora', 'vein', 'العربية الرياضية', 'الرياضية'],
+            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'zarok', 'baraem', 'majid'],
+            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'افلام', 'روتانا']
         };
 
         function playLive(url, name, isYoutube) {
             document.getElementById('current-title').innerText = name;
             const container = document.getElementById('player-container');
-            if(window.innerWidth <= 992) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            
+            if(window.innerWidth <= 992) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
 
             if (isYoutube) {
                 if(player) { player.dispose(); player = null; }
                 container.innerHTML = `<iframe id="yt-player" src="${url}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
             } else {
                 container.innerHTML = `<video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%"><source src="${url}" type="application/x-mpegURL"></video>`;
-                player = videojs
+                player = videojs('live-player'); player.play();
+            }
+        }
+
+        function switchTab(catCode, btn) {
+            currentCategory = catCode;
+            document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterChannels();
+        }
+
+        function filterChannels() {
+            let query = document.getElementById('search').value.toLowerCase();
+            filteredList = allChannelsList.filter(ch => {
+                let matchesCat = (currentCategory === 'all' || ch.type === currentCategory);
+                let matchesSearch = ch.name.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
+            });
+            renderOptimizedGrid();
+        }
+
+        function renderOptimizedGrid() {
+            const box = document.getElementById('channel-box');
+            box.innerHTML = ''; 
+            
+            let displayLimit = Math.min(filteredList.length, 150); 
+            
+            filteredList.slice(0, displayLimit).forEach(ch => {
+                let dotClass = 'dot-global';
+                let labelName = 'IPTV';
+
+                if(ch.type === 'kurd') { dotClass = 'dot-kurd'; labelName = 'کوردستان'; }
+                else if(ch.type === 'sport') { dotClass = 'dot-sport'; labelName = 'وەرزش'; }
+                else if(ch.type === 'user-added') { dotClass = 'dot-user'; labelName = 'زێدەکری'; }
+
+                const div = document.createElement('div');
+                div.className = 'channel-card';
+                if(ch.id) div.setAttribute('id', ch.id);
+
+                div.innerHTML = `
+                    <div class="channel-title">📺 ${ch.name}</div>
+                    <div class="channel-badge">
+                        ${labelName}
+                        <span class="badge-dot ${dotClass}"></span>
+                    </div>`;
+
+                div.addEventListener('click', function() {
+                    playLive(ch.url, ch.name, ch.isYoutube);
+                });
+
+                if(ch.type === 'user-added') {
+                    div.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        confirmDeleteChannel(ch.id, ch.name);
+                    });
+
+                    let pressTimer;
+                    div.addEventListener('touchstart', function() {
+                        pressTimer = setTimeout(function() {
+                            confirmDeleteChannel(ch.id, ch.name);
+                        }, 1500); 
+                    });
+                    div.addEventListener('touchend', function() { clearTimeout(pressTimer); });
+                }
+
+                box.appendChild(div);
+            });
+
+            document.getElementById('loading-status').innerText = `کەنالێن بەردەست: ${filteredList.length}`;
+        }
+
+        function addNewChannelPrompt() {
+            let name = prompt("ناڤێ کەناڵێ نوو بنڤێسه:");
+            if (!name) return;
+            
+            let url = prompt("لینکێ کەناڵی (m3u8 یان یوتیوب) دابنی:");
+            if (!url) return;
+
+            let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
+            if (isYoutube && !url.includes("embed/")) {
+                let videoId = "";
+                if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
+                else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
+                if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
+            }
+
+            let id = 'ch_' + Date.now(); 
+            let newChannel = { id: id, type: 'user-added', name: name, url: url, isYoutube: isYoutube };
+            
+            let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+            savedChannels.push(newChannel);
+            localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+            
+            allChannelsList.unshift(newChannel);
+            filterChannels();
+        }
+
+        function confirmDeleteChannel(id, name) {
+            let ask = confirm(`🚨 ئایا تۆ پشت ڕاستی دڤێت کەناڵێ "${name}" ب تەمامی ژێ ببەی؟`);
+            if (ask) {
+                let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+                savedChannels = savedChannels.filter(c => c.id !== id);
+                localStorage.setItem('user_channels', JSON.stringify(savedChannels));
+                allChannelsList = allChannelsList.filter(c => c.id !== id);
+                filterChannels();
+            }
+        }
+
+        fetch('https://iptv-org.github.io/iptv/index.m3u')
+            .then(res => res.text())
+            .then(data => {
+                const lines = data.split('\n');
+                let currentName = '';
+
+                let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
+                savedChannels.forEach(ch => allChannelsList.push(ch));
+
+                // کەنالێن کوردی ناوخۆیی
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/yF8zNf-48g0', name: 'Rudaw TV HD', isYoutube: true });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/n4_8LdY-p8M', name: 'Kurdistan 24', isYoutube: true });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/hd_S3b8F_M0', name: 'Waar TV', isYoutube: true });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/xLzYhY7P_iI', name: 'Zagros TV', isYoutube: true });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/9G6kXvUoM6o', name: 'Kurdsat HD', isYoutube: true });
+
+                // پاقژکرن و رێکخستنا کەنالێن beIN Sports ب ڕێزبەندیا دروست
+                for(let i=1; i<=16; i++) {
+                    allChannelsList.push({ type: 'sport', url: `http://premium-stream-link/bein${i}.m3u8`, name: `beIN SPORTS ${i} HD`, isYoutube: false });
+                }
+                allChannelsList.push({ type: 'sport', url: 'http://premium-stream-link/bein_premium1.m3u8', name: 'beIN SPORTS Premium 1', isYoutube: false });
+                allChannelsList.push({ type: 'sport', url: 'http://premium-stream-link/bein_news.m3u8', name: 'beIN SPORTS NEWS', isYoutube: false });
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
+                    if (line.startsWith('#EXTINF:')) {
+                        currentName = line.split(',')[1] || '';
+                    } else if (line.startsWith('http') && currentName) {
+                        let lName = currentName.toLowerCase();
+                        let detectedCat = 'global';
+
+                        if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('waar') || lName.includes('kurdistan')) {
+                            detectedCat = 'kurd';
+                        } else {
+                            for (let key in filterRules) {
+                                if (filterRules[key].some(kwd => lName.includes(kwd))) { detectedCat = key; break; }
+                            }
+                        }
+                        // دوورکەوتنەوە لە ناڤێن کەنالێن تێکچووی کۆن یێن بەین سپۆرت
+                        if(!lName.includes('bein')) {
+                            allChannelsList.push({ type: detectedCat, url: line, name: currentName, isYoutube: false });
+                        }
+                        currentName = '';
+                    }
+                }
+                filterChannels(); 
+            });
+    </script>
+</body>
+</html>

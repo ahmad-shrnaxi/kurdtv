@@ -12,9 +12,9 @@
     
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-sidebar: #111827;
-            --bg-card: #1f2937;
+            --bg-main: #080b11;
+            --bg-sidebar: #0f141c;
+            --bg-card: #171e29;
             --kurd-red: #ef4444;
             --kurd-green: #10b981;
             --kurd-gold: #fbbf24;
@@ -49,7 +49,7 @@
             justify-content: space-between;
             padding: 0 25px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             z-index: 10;
         }
 
@@ -60,7 +60,7 @@
             border-radius: 50%; box-shadow: 0 0 15px var(--kurd-gold);
             animation: pulse 2s infinite alternate;
         }
-        .logo-text { font-size: 24px; font-weight: 900; color: #fff; }
+        .logo-text { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: 1px; }
         .logo-text span { color: var(--kurd-red); }
 
         .btn-add {
@@ -71,76 +71,101 @@
         }
         .btn-add:hover { transform: translateY(-2px); }
 
-        /* Main Content */
+        /* WorkSpace Container */
         .main-container { display: flex; flex: 1; height: calc(100vh - 70px); overflow: hidden; }
 
+        /* Video Player Side */
         .content-section {
             flex: 2; padding: 25px; display: flex; flex-direction: column; gap: 20px;
-            overflow-y: auto; background: linear-gradient(180deg, rgba(17,24,39,0.3) 0%, rgba(11,15,25,1) 100%);
+            overflow-y: auto; background: linear-gradient(180deg, rgba(15,20,28,0.4) 0%, rgba(8,11,17,1) 100%);
         }
 
         .player-wrapper {
             width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px;
-            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.05); position: relative;
+            overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.03); position: relative;
         }
         .player-wrapper iframe, .player-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         .current-info {
             background: var(--bg-sidebar); padding: 16px 20px; border-radius: 12px;
             display: flex; align-items: center; gap: 15px; border-right: 5px solid var(--kurd-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .current-info h2 { margin: 0; font-size: 18px; }
+        .current-info h2 { margin: 0; font-size: 18px; font-weight: 600; }
 
-        /* Sidebar & Categories */
-        .sidebar-section { width: 450px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; padding: 20px; gap: 15px; }
+        /* Sidebar Channels UI (Netflix Style) */
+        .sidebar-section { 
+            width: 480px; background-color: var(--bg-sidebar); 
+            border-left: 1px solid rgba(255, 255, 255, 0.05); 
+            display: flex; flex-direction: column; padding: 20px; gap: 15px; 
+        }
 
         .search-wrapper { position: relative; }
         .search-wrapper i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-        .search-box { width: 100%; padding: 14px 45px 14px 15px; background: var(--bg-main); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: white; font-size: 14px; }
+        .search-box { width: 100%; padding: 14px 45px 14px 15px; background: var(--bg-main); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; color: white; font-size: 14px; }
 
-        /* سندوقا تەبا / کاتیگۆریێن جودا */
+        /* Horizontal Categories */
         .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
         .tabs-container::-webkit-scrollbar { height: 5px; }
-        .tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        .tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
 
         .tab-item {
-            background: var(--bg-card); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.03);
+            background: var(--bg-card); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.02);
             padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px;
             white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
         }
         .tab-item:hover, .tab-item.active { background: var(--kurd-gold); color: #000; }
-        .tab-item.kurd-tab { border: 1px solid rgba(245, 158, 11, 0.4); color: #fff; background: rgba(245, 158, 11, 0.1); }
+        .tab-item.kurd-tab { border: 1px solid rgba(251, 191, 36, 0.3); color: #fff; background: rgba(251, 191, 36, 0.08); }
         .tab-item.kurd-tab.active { background: var(--kurd-gold); color: #000; }
 
-        .status-bar { font-size: 12px; color: var(--kurd-gold); background: rgba(251, 191, 36, 0.08); padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .status-bar { font-size: 12px; color: var(--kurd-gold); background: rgba(251, 191, 36, 0.05); padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
 
-        /* Grid Cards */
-        .channel-grid { flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .channel-grid::-webkit-scrollbar { width: 5px; }
+        /* Grid System for Visual Cards */
+        .channel-grid { flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding-left: 2px; }
+        .channel-grid::-webkit-scrollbar { width: 6px; }
         .channel-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
+        /* کارتێن شێوازێ مەزن و وێنەیی */
         .channel-card {
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px;
-            padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
-            cursor: pointer; transition: all 0.2s ease;
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.04); border-radius: 14px;
+            overflow: hidden; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .channel-card:hover { transform: translateY(-3px); border-color: var(--kurd-gold); background: #253041; }
-        .channel-info { display: flex; align-items: center; gap: 10px; }
-        .channel-icon-box { width: 34px; height: 34px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--kurd-gold); font-size: 14px; }
-        .channel-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+        .channel-card:hover { transform: translateY(-4px); border-color: var(--kurd-gold); box-shadow: 0 12px 24px rgba(0,0,0,0.4); }
+        
+        /* شووێنا لۆگۆ یان ڕووشێ مەزن */
+        .card-poster {
+            width: 100%; aspect-ratio: 16/10; background: #111622;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .card-poster img {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;
+        }
+        .channel-card:hover .card-poster img { transform: scale(1.08); }
 
-        .card-badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: bold; align-self: flex-start; }
-        .badge-kurd { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
-        .badge-sport { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
-        .badge-kids { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.4); }
-        .badge-movie { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
-        .badge-global { background: rgba(156, 163, 175, 0.2); color: #e5e7eb; border: 1px solid rgba(156, 163, 175, 0.4); }
+        /* لۆگۆیێ جێگر ئەگەر وێنە نەبیت */
+        .poster-placeholder {
+            font-size: 28px; color: var(--kurd-gold); display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .poster-placeholder span { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
 
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+        /* زانیاریێن ژێر کارتێ */
+        .card-details { padding: 12px; display: flex; flex-direction: column; gap: 8px; background: #151c27; }
+        .channel-title { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .card-badge { font-size: 9px; padding: 3px 8px; border-radius: 6px; font-weight: bold; align-self: flex-start; }
+        .badge-kurd { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-sport { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-kids { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .badge-movie { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-global { background: rgba(156, 163, 175, 0.15); color: #e5e7eb; border: 1px solid rgba(156, 163, 175, 0.3); }
+
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
         @media (max-width: 992px) {
             .main-container { flex-direction: column; overflow-y: auto; height: auto; }
-            .sidebar-section { width: 100%; height: 500px; }
+            .sidebar-section { width: 100%; height: auto; max-height: 600px; }
             body { overflow-y: auto; height: auto; }
         }
     </style>
@@ -156,10 +181,10 @@
         <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن</button>
     </div>
 
-    <!-- Main Workspace -->
+    <!-- Main Container -->
     <div class="main-container">
         
-        <!-- Live Video Area -->
+        <!-- Live Video Frame -->
         <div class="content-section">
             <div id="player-container" class="player-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
@@ -170,14 +195,14 @@
             </div>
         </div>
 
-        <!-- Sidebar & Dynamic Filters -->
+        <!-- Sidebar Section (Visual Grid) -->
         <div class="sidebar-section">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="search" class="search-box" placeholder="ناڤێ کەناڵی بگەڕێ..." oninput="filterChannels()">
             </div>
             
-            <!-- لیستا تەبێن نوو یێن کو تە داخوازکرین -->
+            <!-- کاتیگۆریێن جودا کری بە شێوازێ مۆدێرن -->
             <div class="tabs-container" id="countries-bar">
                 <div class="tab-item active" onclick="switchTab('all', this)"><i class="fa-solid fa-border-all"></i> هەمی</div>
                 <div class="tab-item kurd-tab" onclick="switchTab('kurd', this)"><i class="fa-solid fa-sun"></i> کوردستان ☀️</div>
@@ -194,44 +219,36 @@
             </div>
 
             <div id="loading-status" class="status-bar">
-                <i class="fa-solid fa-spinner fa-spin"></i> سیستەم یێ لۆدکرنا کەناڵێن مۆدێرن دکەت...
+                <i class="fa-solid fa-spinner fa-spin"></i> سیستەم یێ لۆدکرنا کارتێن وێنەیی یێن کەناڵان دکەت...
             </div>
 
-            <!-- سندوقا کارتێن کەناڵان -->
+            <!-- سندوقا کارتێن وێنەیی (Visual Card Grid) -->
             <div class="channel-grid" id="channel-box">
                 
-                <!-- کەناڵێن کوردی یێن جێگیرکری (Local & Premium) -->
+                <!-- کەناڵێن فەرمی یێن کوردی دگەڵ لۆگۆیێن وان -->
                 <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV Live', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Rudaw TV</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
+                    <div class="card-poster"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Rudaw_logo_2022.PNG" alt="Rudaw"></div>
+                    <div class="card-details"><div class="channel-title">Rudaw TV HD</div><span class="card-badge badge-kurd">ناوخۆیی</span></div>
                 </div>
+
                 <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24 Live', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Kurdistan 24</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
+                    <div class="card-poster"><img src="https://www.kurdistan24.net/assets/images/k24-logo.png" onerror="this.src='https://placehold.co/300x200/171e29/fff?text=K24'" alt="K24"></div>
+                    <div class="card-details"><div class="channel-title">Kurdistan 24</div><span class="card-badge badge-kurd">ناوخۆیی</span></div>
                 </div>
+
                 <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV Live', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Waar TV</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
+                    <div class="card-poster"><img src="https://waarmedia.com/wp-content/uploads/2023/07/waar-logo.png" onerror="this.src='https://placehold.co/300x200/171e29/fff?text=Waar+TV'" alt="Waar"></div>
+                    <div class="card-details"><div class="channel-title">Waar TV</div><span class="card-badge badge-kurd">ناوخۆیی</span></div>
                 </div>
-                <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/V6W3o-GfP98', 'Gali Kurdistan', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Gali Kurdistan</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
-                </div>
+
                 <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/xLzYhY7P_iI', 'Zagros TV', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Zagros TV</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
+                    <div class="card-poster"><div class="poster-placeholder"><i class="fa-solid fa-sun"></i><span>ZAGROS</span></div></div>
+                    <div class="card-details"><div class="channel-title">Zagros TV</div><span class="card-badge badge-kurd">ناوخۆیی</span></div>
                 </div>
-                <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/9G6kXvUoM6o', 'Kurdstat TV', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Kurdsat HD</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
-                </div>
-                <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/vM47wK_Pwtg', 'Speda TV', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Speda TV</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
-                </div>
-                <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/mG3uO6C2R3U', 'Payam TV', true)">
-                    <div class="channel-info"><div class="channel-icon-box"><i class="fa-solid fa-sun"></i></div><div class="channel-name">Payam TV</div></div>
-                    <span class="card-badge badge-kurd">کوردستان</span>
+
+                <div class="channel-card" data-country="kurd" onclick="playLive('https://www.youtube.com/embed/9G6kXvUoM6o', 'Kurdsat HD', true)">
+                    <div class="card-poster"><div class="poster-placeholder"><i class="fa-solid fa-tv"></i><span>KURDSAT</span></div></div>
+                    <div class="card-details"><div class="channel-title">Kurdsat HD</div><span class="card-badge badge-kurd">ناوخۆیی</span></div>
                 </div>
 
             </div>
@@ -243,17 +260,16 @@
         let player = null;
         let currentCategory = 'all';
 
-        // سیستەمێ دابەشکرنێ بۆ فچکرنا API
         const filterRules = {
-            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport'],
-            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'cn ', 'spacetoon', 'baraem', 'majid'],
-            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'mbc4', 'action', 'box office'],
-            'doc': ['documentary', 'nat geo', 'national', 'discovery', 'history', 'documentary', 'وثائقية'],
-            'ar': ['mbc', 'rotana', 'al arabia', 'beirut', 'iraq', 'egypt', 'saudi', 'dubai'],
-            'tr': ['trt', 'atv', 'show tv', 'fox tr', 'kanald', 'star tv', 'tv8', 'turk'],
+            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football', 'koora'],
+            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'baraem', 'majid', 'zarok', 'طيور'],
+            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'mbc4', 'box office', 'افلام', 'سينما'],
+            'doc': ['documentary', 'nat geo', 'national', 'discovery', 'history', 'وثائقية'],
+            'ar': ['mbc', 'rotana', 'al arabia', 'iraq', 'egypt', 'saudi', 'الجزيرة', 'العربية'],
+            'tr': ['trt', 'atv', 'show tv', 'fox tr', 'kanald', 'star tv', 'tv8', 'turk', 'kral'],
             'ir': ['irib', 'gem', 'iran', 'persian', 'manoto'],
             'us': ['usa', 'hbo', 'cbs', 'abc', 'nbc', 'cnn', 'amc'],
-            'eu': ['france', 'italy', 'germany', 'spain', 'sky', 'bbc', 'rtve', 'rai']
+            'eu': ['france', 'italy', 'germany', 'spain', 'sky', 'bbc']
         };
 
         function playLive(url, name, isYoutube) {
@@ -293,9 +309,9 @@
         }
 
         function addNewChannelPrompt() {
-            let name = prompt("ناڤێ کەناڵێ نوو بنڤێسه:"); if (!name) return;
-            let url = prompt("لینکێ مێگا m3u8 یان یوتیوب:"); if (!url) return;
-            let cat = prompt("کاتیگۆری دیار بکە (kurd, sport, kids, movie, doc, ar, tr, ir, eu, us):") || 'user-added';
+            let name = prompt("ناڤێ کەناڵی:"); if (!name) return;
+            let url = prompt("لینکێ کەناڵی (m3u8 یان یوتیوب):"); if (!url) return;
+            let cat = prompt("کاتیگۆری (kurd, sport, kids, movie, doc, ar, tr, ir, eu, us):") || 'user-added';
 
             let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
             if (isYoutube && !url.includes("embed/")) {
@@ -320,24 +336,15 @@
             div.setAttribute('data-country', ch.category || 'user-added');
             div.setAttribute('id', ch.id);
             div.innerHTML = `
-                <div class="channel-info">
-                    <div class="channel-icon-box"><i class="fa-solid fa-star"></i></div>
-                    <div class="channel-name">${ch.name}</div>
-                </div>
-                <span class="card-badge badge-user">یێن من</span>`;
+                <div class="card-poster"><div class="poster-placeholder"><i class="fa-solid fa-star"></i><span>CUSTOM</span></div></div>
+                <div class="card-details">
+                    <div class="channel-title">${ch.name}</div>
+                    <span class="card-badge badge-global">یێن من</span>
+                </div>`;
             
             div.addEventListener('click', function() { playLive(ch.url, ch.name, ch.isYoutube); });
             div.addEventListener('contextmenu', function(e) { e.preventDefault(); confirmDeleteChannel(ch.id, ch.name); });
             box.insertBefore(div, box.firstChild);
-        }
-
-        function confirmDeleteChannel(id, name) {
-            if (confirm(`🚨 ئایا دڤێت "${name}" ب تەمامی ژێببەی؟`)) {
-                let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
-                savedChannels = savedChannels.filter(c => c.id !== id);
-                localStorage.setItem('user_channels', JSON.stringify(savedChannels));
-                if(document.getElementById(id)) document.getElementById(id).remove();
-            }
         }
 
         function loadSavedChannels() {
@@ -345,7 +352,7 @@
             savedChannels.forEach(ch => renderUserChannel(ch));
         }
 
-        // فێچکردن و پۆلێنکردنی زیرەکانە بۆ ١٠,٠٠٠+ کەنال بەبێ وەستان
+        // فێچکرنا زیرەک و گۆڕینی بۆ فۆرماتێ کارتێن مەزن
         fetch('https://iptv-org.github.io/iptv/index.m3u')
             .then(res => res.text())
             .then(data => {
@@ -354,17 +361,20 @@
                 const box = document.getElementById('channel-box');
                 let validChannels = [];
                 let currentName = '';
+                let currentLogo = '';
 
                 for (let i = 0; i < lines.length; i++) {
                     let line = lines[i].trim();
                     if (line.startsWith('#EXTINF:')) {
                         currentName = line.split(',')[1] || '';
+                        if(line.includes('tvg-logo="')) {
+                            currentLogo = line.split('tvg-logo="')[1].split('"')[0];
+                        }
                     } else if (line.startsWith('http') && currentName) {
                         if (currentName.length <= 45 && !line.includes('Chrome')) {
                             let lName = currentName.toLowerCase();
                             let detectedCat = 'global';
 
-                            // فلتەرکرنا ئۆتۆماتیکی یا بەشێن تە داخوازکرین
                             if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('waar') || lName.includes('kurdistan')) {
                                 detectedCat = 'kurd';
                             } else {
@@ -375,41 +385,45 @@
                                     }
                                 }
                             }
-                            validChannels.push({ type: detectedCat, url: line, name: currentName });
+                            validChannels.push({ type: detectedCat, url: line, name: currentName, logo: currentLogo });
                         }
-                        currentName = '';
+                        currentName = ''; currentLogo = '';
                     }
                 }
 
-                // لۆدکرنا خێرا پارچە پارچە
-                let index = 0; const chunkSize = 150;
+                let index = 0; const chunkSize = 100;
                 function renderChunks() {
                     if (index >= validChannels.length) {
-                        document.getElementById('loading-status').innerHTML = `<i class="fa-solid fa-circle-check"></i> هەمی کاتیگۆری لۆد بوون! (${validChannels.length.toLocaleString()})`;
+                        document.getElementById('loading-status').innerHTML = `<i class="fa-solid fa-circle-check"></i> هەمی کارت و لۆگۆ سەرکەفتنە لۆد بوون! (${validChannels.length.toLocaleString()})`;
                         return;
                     }
                     let chunkHtml = '';
                     let limit = Math.min(index + chunkSize, validChannels.length);
+                    
                     for (let i = index; i < limit; i++) {
                         let ch = validChannels[i];
                         let cleanName = ch.name.replace(/'/g, "\\'");
                         let badgeClass = 'badge-global';
-                        let icon = 'fa-tv';
                         let label = 'کەناڵ';
+                        let posterContent = `<div class="poster-placeholder"><i class="fa-solid fa-tv"></i><span>IPTV</span></div>`;
 
-                        if(ch.type === 'kurd') { badgeClass = 'badge-kurd'; icon = 'fa-sun'; label = 'کوردستان'; }
-                        else if(ch.type === 'sport') { badgeClass = 'badge-sport'; icon = 'fa-soccer-ball'; label = 'وەرزش'; }
-                        else if(ch.type === 'kids') { badgeClass = 'badge-kids'; icon = 'fa-child'; label = 'زارۆک'; }
-                        else if(ch.type === 'movie') { badgeClass = 'badge-movie'; icon = 'fa-film'; label = 'فلیم'; }
-                        else if(ch.type === 'doc') { badgeClass = 'badge-movie'; icon = 'fa-brain'; label = 'دۆکیۆمێنت'; }
+                        if(ch.logo && ch.logo.startsWith('http')) {
+                            posterContent = `<img src="${ch.logo}" onerror="this.style.display='none'" alt="logo">`;
+                        }
+
+                        if(ch.type === 'kurd') { badgeClass = 'badge-kurd'; label = 'کوردستان'; }
+                        else if(ch.type === 'sport') { badgeClass = 'badge-sport'; label = 'وەرزش'; }
+                        else if(ch.type === 'kids') { badgeClass = 'badge-kids'; label = 'زارۆک'; }
+                        else if(ch.type === 'movie') { badgeClass = 'badge-movie'; label = 'فلیم'; }
+                        else if(ch.type === 'doc') { badgeClass = 'badge-movie'; label = 'دۆکیۆمێنت'; }
 
                         chunkHtml += `
                             <div class="channel-card" data-country="${ch.type}" onclick="playLive('${ch.url}', '${cleanName}', false)">
-                                <div class="channel-info">
-                                    <div class="channel-icon-box"><i class="fa-solid ${icon}"></i></div>
-                                    <div class="channel-name">${ch.name}</div>
+                                <div class="card-poster">${posterContent}</div>
+                                <div class="card-details">
+                                    <div class="channel-title">${ch.name}</div>
+                                    <span class="card-badge ${badgeClass}">${label}</span>
                                 </div>
-                                <span class="card-badge ${badgeClass}">${label}</span>
                             </div>`;
                     }
                     box.insertAdjacentHTML('beforeend', chunkHtml);

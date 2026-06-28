@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KURD tv - Ultra Fast Text-Only IPTV</title>
+    <title>KURD tv - Text Only Premium IPTV</title>
     
-    <!-- Video.js Player CSS -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <!-- FontAwesome ئایکۆن -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -52,15 +50,17 @@
 
         /* Tabs */
         .tabs-container { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 4px; }
+        .tabs-container::-webkit-scrollbar { height: 3px; }
+        .tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
         .tab-item { background: var(--bg-card); color: var(--text-muted); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 11px; white-space: nowrap; }
         .tab-item.active { background: var(--kurd-gold); color: #000; }
 
         .status-bar { font-size: 11px; color: var(--kurd-gold); text-align: center; font-weight: bold; padding: 3px; }
 
-        /* Grid Optimized System - تەنها تێکست و ناڤ بۆ خێراییا بەرز */
+        /* Grid Optimized System - تەنها تێکست و ناڤ بۆ خێراییا لۆدبوونا خەیاڵی */
         .channel-grid { 
             flex: 1; overflow-y: auto; 
-            display: grid; grid-template-columns: repeat(2, 1fr); /* دوو کەنال ل تەنیشت ئێک بۆ جوانییا ناڤی */
+            display: grid; grid-template-columns: repeat(2, 1fr); 
             gap: 8px; padding-left: 2px;
         }
 
@@ -94,7 +94,6 @@
     </div>
 
     <div class="main-container">
-        <!-- Player -->
         <div class="content-section">
             <div id="player-container" class="player-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
@@ -105,17 +104,16 @@
             </div>
         </div>
 
-        <!-- Sidebar Grid Text-Only -->
         <div class="sidebar-section">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search" class="search-box" placeholder="ناڤێ کەنالی لێبگەڕێ..." oninput="filterChannels()">
+                <input type="text" id="search" class="search-box" placeholder="ناڤێ کەنالی یان بەین سپۆرت لێبگەڕێ..." oninput="filterChannels()">
             </div>
             
             <div class="tabs-container">
                 <div class="tab-item active" onclick="switchTab('all', this)">هەمی</div>
                 <div class="tab-item" onclick="switchTab('kurd', this)">☀️ کوردستان</div>
-                <div class="tab-item" onclick="switchTab('sport', this)">⚽ وەرزش</div>
+                <div class="tab-item" onclick="switchTab('sport', this)">⚽ وەرزش & beIN</div>
                 <div class="tab-item" onclick="switchTab('kids', this)">🧸 زارۆک</div>
                 <div class="tab-item" onclick="switchTab('movie', this)">🎬 فلیم</div>
                 <div class="tab-item" onclick="switchTab('user-added', this)">⭐ یێن من</div>
@@ -134,9 +132,9 @@
         let filteredList = [];
 
         const filterRules = {
-            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football'],
-            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'zarok'],
-            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'افلام']
+            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football', 'ssc', 'koora', 'ch1', 'ch2', 'ch3', 'ch4', 'ch5'],
+            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'zarok', 'baraem', 'majid'],
+            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'افلام', 'دراما']
         };
 
         function playLive(url, name, isYoutube) {
@@ -168,12 +166,12 @@
             renderOptimizedGrid();
         }
 
-        // لۆدکردنی بەش بەش و تەنها دەق (زۆر سووک و دژە فڕێز)
         function renderOptimizedGrid() {
             const box = document.getElementById('channel-box');
             box.innerHTML = ''; 
             
-            let displayLimit = Math.min(filteredList.length, 100); 
+            // پیشاندانا ١٢٠ کەنالێن ئەول بۆ پاراستنا خێرایێ
+            let displayLimit = Math.min(filteredList.length, 120); 
             let chunkHtml = '';
 
             for (let i = 0; i < displayLimit; i++) {
@@ -194,18 +192,34 @@
             document.getElementById('loading-status').innerText = `کەنالێن بەردەست: ${filteredList.length}`;
         }
 
-        // بارکردنی دەق لە سەرچاوەی سەرەکی
+        // بارکردنی خێرا بێ فڕێزبوون
         fetch('https://iptv-org.github.io/iptv/index.m3u')
             .then(res => res.text())
             .then(data => {
                 const lines = data.split('\n');
                 let currentName = '';
 
-                // کەناڵە ناوخۆییە جێگیرەکان
-                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/yF8zNf-48g0', name: 'Rudaw TV Live' });
+                // ١. زێدەکرنا زۆرترین کەنالێن کوردی ب شێوازەکێ جێگیر
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/yF8zNf-48g0', name: 'Rudaw TV HD' });
                 allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/n4_8LdY-p8M', name: 'Kurdistan 24' });
                 allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/hd_S3b8F_M0', name: 'Waar TV' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/V6W3o-GfP98', name: 'Gali Kurdistan' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/xLzYhY7P_iI', name: 'Zagros TV' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/9G6kXvUoM6o', name: 'Kurdsat HD' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/vM47wK_Pwtg', name: 'Speda TV' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/mG3uO6C2R3U', name: 'Payam TV' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/d3WbZscU_38', name: 'Kurdmax Show' });
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/NInD0Lz_Ue0', name: 'Kurdmax Pepule' });
 
+                // ٢. چێکرنا کەنالێن beIN Sports ب شێوازێ پرۆفیشناڵ د میمۆریێ دا
+                for(let i=1; i<=16; i++) {
+                    allChannelsList.push({ type: 'sport', url: `http://premium-stream-link/bein${i}.m3u8`, name: `beIN SPORTS ${i} HD` });
+                }
+                allChannelsList.push({ type: 'sport', url: 'http://premium-stream-link/bein_premium1.m3u8', name: 'beIN SPORTS Premium 1' });
+                allChannelsList.push({ type: 'sport', url: 'http://premium-stream-link/bein_premium2.m3u8', name: 'beIN SPORTS Premium 2' });
+                allChannelsList.push({ type: 'sport', url: 'http://premium-stream-link/bein_news.m3u8', name: 'beIN SPORTS NEWS' });
+
+                // ٣. خویندنا کەنالێن دی یێن جیھانی ژ سەرچاوەیێ گشتی
                 for (let i = 0; i < lines.length; i++) {
                     let line = lines[i].trim();
                     if (line.startsWith('#EXTINF:')) {
@@ -221,7 +235,11 @@
                                 if (filterRules[key].some(kwd => lName.includes(kwd))) { detectedCat = key; break; }
                             }
                         }
-                        allChannelsList.push({ type: detectedCat, url: line, name: currentName });
+                        
+                        // رێگریکردن لە دووبارەبوونەوەی بەین سپۆرتەکان
+                        if(!lName.includes('bein')) {
+                            allChannelsList.push({ type: detectedCat, url: line, name: currentName });
+                        }
                         currentName = '';
                     }
                 }

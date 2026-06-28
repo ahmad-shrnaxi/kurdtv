@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KURD tv - Premium IPTV Platform</title>
+    <title>KURD tv - Anti-Freeze Premium IPTV</title>
     
     <!-- Video.js Player CSS -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <!-- FontAwesome بۆ ئایکۆنێن پرۆفیشناڵ -->
+    <!-- FontAwesome ئایکۆن -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -20,236 +20,112 @@
             --kurd-gold: #fbbf24;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --accent: #3b82f6;
         }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            user-select: none;
-        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
         /* Navbar */
-        .navbar {
-            height: 65px;
-            background-color: var(--bg-sidebar);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            z-index: 10;
-        }
-
+        .navbar { height: 65px; background-color: var(--bg-sidebar); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .sun-logo {
-            width: 28px; height: 28px;
-            background: radial-gradient(circle, #fffb00 20%, var(--kurd-gold) 70%);
-            border-radius: 50%; box-shadow: 0 0 12px var(--kurd-gold);
-            animation: pulse 2s infinite alternate;
-        }
+        .sun-logo { width: 28px; height: 28px; background: radial-gradient(circle, #fffb00 20%, var(--kurd-gold) 70%); border-radius: 50%; box-shadow: 0 0 12px var(--kurd-gold); }
         .logo-text { font-size: 22px; font-weight: 900; color: #fff; }
         .logo-text span { color: var(--kurd-red); }
 
-        .btn-add {
-            background: linear-gradient(135deg, var(--kurd-green), #059669);
-            color: white; border: none; padding: 8px 14px; border-radius: 6px;
-            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;
-            transition: all 0.2s ease; font-size: 13px;
-        }
-        .btn-add:hover { transform: translateY(-2px); }
+        .btn-add { background: linear-gradient(135deg, var(--kurd-green), #059669); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 13px; }
 
-        /* Workspace Grid */
+        /* Container */
         .main-container { display: flex; flex: 1; height: calc(100vh - 65px); overflow: hidden; }
 
         /* Video Frame */
-        .content-section {
-            flex: 2; padding: 20px; display: flex; flex-direction: column; gap: 15px;
-            overflow-y: auto; background: linear-gradient(180deg, rgba(13,17,26,0.4) 0%, rgba(6,9,15,1) 100%);
-        }
-
-        .player-wrapper {
-            width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px;
-            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.03); position: relative;
-        }
+        .content-section { flex: 2; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #06090f; }
+        .player-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.7); position: relative; }
         .player-wrapper iframe, .player-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .current-info { background: var(--bg-sidebar); padding: 14px 18px; border-radius: 10px; display: flex; align-items: center; gap: 12px; border-right: 4px solid var(--kurd-gold); }
+        .current-info h2 { margin: 0; font-size: 16px; }
 
-        .current-info {
-            background: var(--bg-sidebar); padding: 14px 18px; border-radius: 10px;
-            display: flex; align-items: center; gap: 12px; border-right: 4px solid var(--kurd-gold);
-        }
-        .current-info h2 { margin: 0; font-size: 16px; font-weight: 600; }
-
-        /* Sidebar Section for Grid Logos */
-        .sidebar-section { 
-            width: 460px; background-color: var(--bg-sidebar); 
-            border-left: 1px solid rgba(255, 255, 255, 0.05); 
-            display: flex; flex-direction: column; padding: 15px; gap: 12px; 
-        }
-
+        /* Sidebar Anti-Freeze */
+        .sidebar-section { width: 420px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; padding: 15px; gap: 12px; }
         .search-wrapper { position: relative; }
         .search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
         .search-box { width: 100%; padding: 11px 40px 11px 12px; background: var(--bg-main); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; color: white; font-size: 13px; }
 
-        /* Categories Bar */
+        /* Tabs */
         .tabs-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; }
-        .tabs-container::-webkit-scrollbar { height: 4px; }
-        .tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .tab-item { background: var(--bg-card); color: var(--text-muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 11px; white-space: nowrap; }
+        .tab-item.active { background: var(--kurd-gold); color: #000; }
 
-        .tab-item {
-            background: var(--bg-card); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.01);
-            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 11px;
-            white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 4px;
-        }
-        .tab-item:hover, .tab-item.active { background: var(--kurd-gold); color: #000; }
-        .tab-item.kurd-tab { border: 1px solid rgba(251, 191, 36, 0.25); color: #fff; background: rgba(251, 191, 36, 0.05); }
-        .tab-item.kurd-tab.active { background: var(--kurd-gold); color: #000; }
+        .status-bar { font-size: 11px; color: var(--kurd-gold); text-align: center; font-weight: bold; padding: 5px; }
 
-        .status-bar { font-size: 11px; color: var(--kurd-gold); background: rgba(251, 191, 36, 0.03); padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; }
-
-        /* لۆگۆ گرید - گونجاندن بۆ هزاران کەنالان بێ تێکست */
+        /* Grid Optimization - رێگریکردن لە فڕێزبۆن */
         .channel-grid { 
             flex: 1; overflow-y: auto; 
-            display: grid; grid-template-columns: repeat(3, 1fr); /* ٣ کەنال ل پەنلێ دەنیشینیت بۆ خێرایێ */
-            gap: 10px; padding-left: 2px; 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; padding-left: 2px;
+            contain: layout pixels; /* هێزێ گرافیکی کەم دکەت دا فڕێز نەبیت */
         }
-        .channel-grid::-webkit-scrollbar { width: 5px; }
-        .channel-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
 
-        /* شێوازێ نوو یێ کارتێ (تەنها وێنە و شەکل) */
         .channel-card {
             background: var(--bg-card); border: 1px solid rgba(255,255,255,0.03); border-radius: 10px;
             aspect-ratio: 1/1; overflow: hidden; cursor: pointer; 
             display: flex; align-items: center; justify-content: center;
-            position: relative; transition: all 0.2s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            position: relative; transition: transform 0.15s ease;
         }
-        .channel-card:hover { transform: scale(1.05); border-color: var(--kurd-gold); box-shadow: 0 8px 16px rgba(0,0,0,0.5); z-index: 2; }
+        .channel-card:hover { transform: scale(1.04); border-color: var(--kurd-gold); }
         
-        .channel-card img {
-            width: 85%; height: 85%; object-fit: contain; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));
-            transition: transform 0.2s;
-        }
-        .channel-card:hover img { transform: scale(1.08); }
+        /* تەنها دەمێ وێنە ل بەر چاڤ بیت دێ لۆگۆ لۆد بیت (Lazy Load) */
+        .channel-card img { width: 80%; height: 80%; object-fit: contain; }
+        .poster-placeholder { font-size: 14px; font-weight: 800; color: var(--text-muted); text-align: center; text-transform: uppercase; }
 
-        /* ئەگەر کەنالی لۆگۆ نەبیت، پیتێن کورتکری دیار دبن */
-        .poster-placeholder {
-            font-size: 16px; font-weight: 800; color: var(--text-muted); text-align: center;
-            text-transform: uppercase; letter-spacing: 0.5px; padding: 5px;
-        }
-
-        /* لایڤ باجێ ڕەنگاوڕەنگ ل سەر سەرێ لۆگۆی */
-        .badge-dot {
-            position: absolute; top: 6px; left: 6px; width: 6px; height: 6px; border-radius: 50%;
-        }
-        .dot-kurd { background-color: var(--kurd-gold); box-shadow: 0 0 6px var(--kurd-gold); }
-        .dot-sport { background-color: #3b82f6; box-shadow: 0 0 6px #3b82f6; }
+        .badge-dot { position: absolute; top: 6px; left: 6px; width: 6px; height: 6px; border-radius: 50%; }
+        .dot-kurd { background-color: var(--kurd-gold); }
+        .dot-sport { background-color: #3b82f6; }
         .dot-global { background-color: #9ca3af; }
 
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.03); } }
         @media (max-width: 992px) {
-            .main-container { flex-direction: column; overflow-y: auto; height: auto; }
-            .sidebar-section { width: 100%; height: auto; max-height: 500px; }
-            .channel-grid { grid-template-columns: repeat(4, 1fr); } /* ل سەر مۆبایلێ دبنە ٤ دانە ل تەنیشت ئێک */
-            body { overflow-y: auto; height: auto; }
+            .main-container { flex-direction: column; }
+            .sidebar-section { width: 100%; max-height: 400px; }
+            .channel-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <div class="navbar">
-        <div class="logo-area">
-            <div class="sun-logo"></div>
-            <div class="logo-text">KURD <span>tv</span></div>
-        </div>
+        <div class="logo-area"><div class="sun-logo"></div><div class="logo-text">KURD <span>tv</span></div></div>
         <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن</button>
     </div>
 
-    <!-- Container -->
     <div class="main-container">
-        
-        <!-- Live Window -->
+        <!-- Player -->
         <div class="content-section">
             <div id="player-container" class="player-wrapper">
                 <iframe id="yt-player" src="https://www.youtube.com/embed/yF8zNf-48g0" allowfullscreen></iframe>
             </div>
             <div class="current-info">
-                <i class="fa-solid fa-circle-dot fa-beat" style="color: var(--kurd-red)"></i>
+                <i class="fa-solid fa-circle-dot" style="color: var(--kurd-red)"></i>
                 <h2 id="current-title">Rudaw TV Live</h2>
             </div>
         </div>
 
-        <!-- Sidebar Logo Grid -->
+        <!-- Sidebar Grid optimized for 10K+ Channels -->
         <div class="sidebar-section">
             <div class="search-wrapper">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search" class="search-box" placeholder="ناڤێ کەنالی ل ڤێرێ لێبگەڕێ..." oninput="filterChannels()">
+                <input type="text" id="search" class="search-box" placeholder="ناڤێ کەنالی..." oninput="filterChannels()">
             </div>
             
-            <!-- کاتیگۆریێن پێشڤەچووی کورتکری -->
-            <div class="tabs-container" id="countries-bar">
-                <div class="tab-item active" onclick="switchTab('all', this)"><i class="fa-solid fa-border-all"></i> هەمی</div>
-                <div class="tab-item kurd-tab" onclick="switchTab('kurd', this)">☀️ کورد</div>
+            <div class="tabs-container">
+                <div class="tab-item active" onclick="switchTab('all', this)">هەمی</div>
+                <div class="tab-item" onclick="switchTab('kurd', this)">☀️ کوردستان</div>
                 <div class="tab-item" onclick="switchTab('sport', this)">⚽ وەرزش</div>
                 <div class="tab-item" onclick="switchTab('kids', this)">🧸 زارۆک</div>
                 <div class="tab-item" onclick="switchTab('movie', this)">🎬 فلیم</div>
-                <div class="tab-item" onclick="switchTab('doc', this)">🔬 دۆکیۆمێنت</div>
-                <div class="tab-item" onclick="switchTab('ar', this)">🇸🇦 عەرەبی</div>
-                <div class="tab-item" onclick="switchTab('tr', this)">🇹🇷 تورکی</div>
-                <div class="tab-item" onclick="switchTab('ir', this)">🇮🇷 ئێرانی</div>
-                <div class="tab-item" onclick="switchTab('eu', this)">🇪🇺 ئەوروپی</div>
-                <div class="tab-item" onclick="switchTab('us', this)">🇺🇸 ئەمریکی</div>
                 <div class="tab-item" onclick="switchTab('user-added', this)">⭐ یێن من</div>
             </div>
 
-            <div id="loading-status" class="status-bar">
-                <i class="fa-solid fa-spinner fa-spin"></i> سیستەم یێ لۆدکرنا وێنەیێن کەنالان دکەت...
-            </div>
-
-            <!-- سندوقا وێنەیی یا مەزن ب سێ کەنالان ل سەر هەر هێڵەکێ (No Text, Just Shape) -->
-            <div class="channel-grid" id="channel-box">
-                
-                <!-- کەنالێن جێگیر یێن کوردی دگەڵ فەرمیترین شێواز و لۆگۆ -->
-                <div class="channel-card" data-country="kurd" title="Rudaw TV" onclick="playLive('https://www.youtube.com/embed/yF8zNf-48g0', 'Rudaw TV', true)">
-                    <div class="badge-dot dot-kurd"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Rudaw_logo_2022.PNG" alt="Rudaw">
-                </div>
-
-                <div class="channel-card" data-country="kurd" title="Kurdistan 24" onclick="playLive('https://www.youtube.com/embed/n4_8LdY-p8M', 'Kurdistan 24', true)">
-                    <div class="badge-dot dot-kurd"></div>
-                    <img src="https://www.kurdistan24.net/assets/images/k24-logo.png" onerror="this.parentNode.innerHTML+='<div class=\"poster-placeholder\">K24</div>'" alt="K24">
-                </div>
-
-                <div class="channel-card" data-country="kurd" title="Waar TV" onclick="playLive('https://www.youtube.com/embed/hd_S3b8F_M0', 'Waar TV', true)">
-                    <div class="badge-dot dot-kurd"></div>
-                    <img src="https://waarmedia.com/wp-content/uploads/2023/07/waar-logo.png" onerror="this.parentNode.innerHTML+='<div class=\"poster-placeholder\">WAAR</div>'" alt="Waar">
-                </div>
-
-                <div class="channel-card" data-country="kurd" title="Zagros TV" onclick="playLive('https://www.youtube.com/embed/xLzYhY7P_iI', 'Zagros TV', true)">
-                    <div class="badge-dot dot-kurd"></div>
-                    <div class="poster-placeholder">ZAGROS</div>
-                </div>
-
-                <div class="channel-card" data-country="kurd" title="Kurdsat HD" onclick="playLive('https://www.youtube.com/embed/9G6kXvUoM6o', 'Kurdsat HD', true)">
-                    <div class="badge-dot dot-kurd"></div>
-                    <div class="poster-placeholder">KURDSAT</div>
-                </div>
-
-            </div>
+            <div id="loading-status" class="status-bar">چاوڕێبە... کەنال دهێنە ڕێکخستن</div>
+            <div class="channel-grid" id="channel-box"></div>
         </div>
     </div>
 
@@ -257,17 +133,13 @@
     <script>
         let player = null;
         let currentCategory = 'all';
+        let allChannelsList = []; // پاشەکەوتکردنی هەمی کەنالان د میمۆریێ دا نەک ل سەر شاشێ
+        let filteredList = [];
 
         const filterRules = {
-            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football', 'koora'],
-            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'baraem', 'majid', 'zarok', 'طيور'],
-            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'mbc4', 'box office', 'افلام', 'سينما'],
-            'doc': ['documentary', 'nat geo', 'national', 'discovery', 'history', 'وثائقية'],
-            'ar': ['mbc', 'rotana', 'al arabia', 'iraq', 'egypt', 'saudi', 'الجزيرة', 'العربية'],
-            'tr': ['trt', 'atv', 'show tv', 'fox tr', 'kanald', 'star tv', 'tv8', 'turk'],
-            'ir': ['irib', 'gem', 'iran', 'persian', 'manoto'],
-            'us': ['usa', 'hbo', 'cbs', 'abc', 'nbc', 'cnn', 'amc'],
-            'eu': ['france', 'italy', 'germany', 'spain', 'sky', 'bbc']
+            'sport': ['sport', 'bein', 'alkass', 'espn', 'arena', 'eurosport', 'football'],
+            'kids': ['kids', 'cartoon', 'disney', 'nickelodeon', 'spacetoon', 'zarok'],
+            'movie': ['movie', 'cinema', 'action', 'drama', 'fox', 'mbc2', 'افلام']
         };
 
         function playLive(url, name, isYoutube) {
@@ -277,12 +149,8 @@
                 if(player) { player.dispose(); player = null; }
                 container.innerHTML = `<iframe id="yt-player" src="${url}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
             } else {
-                container.innerHTML = `
-                    <video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%">
-                        <source src="${url}" type="application/x-mpegURL">
-                    </video>`;
-                player = videojs('live-player');
-                player.play();
+                container.innerHTML = `<video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%"><source src="${url}" type="application/x-mpegURL"></video>`;
+                player = videojs('live-player'); player.play();
             }
         }
 
@@ -293,71 +161,54 @@
             filterChannels();
         }
 
+        // فلتەرکردنا خێرا د ناڤ میمۆریێ دا (رێگری ل باگ و هەنبۆنێ دکەت)
         function filterChannels() {
             let query = document.getElementById('search').value.toLowerCase();
-            let items = document.querySelectorAll('.channel-card');
-            
-            items.forEach(item => {
-                let cat = item.getAttribute('data-country');
-                let title = item.getAttribute('title').toLowerCase();
-                let matchesCat = (currentCategory === 'all' || cat === currentCategory);
-                let matchesSearch = title.includes(query);
-                item.style.display = (matchesCat && matchesSearch) ? "flex" : "none";
+            filteredList = allChannelsList.filter(ch => {
+                let matchesCat = (currentCategory === 'all' || ch.type === currentCategory);
+                let matchesSearch = ch.name.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
             });
+            renderOptimizedGrid();
         }
 
-        function addNewChannelPrompt() {
-            let name = prompt("ناڤێ کەنالی:"); if (!name) return;
-            let url = prompt("لینکێ کەنالی (m3u8 یان یوتیوب):"); if (!url) return;
-            let cat = prompt("کاتیگۆری (kurd, sport, kids, movie, doc, ar, tr, ir, eu, us):") || 'user-added';
-
-            let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
-            if (isYoutube && !url.includes("embed/")) {
-                let videoId = "";
-                if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
-                else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
-                if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
-            }
-
-            let id = 'ch_' + Date.now();
-            let newChannel = { id: id, name: name, url: url, isYoutube: isYoutube, category: cat };
-            let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
-            savedChannels.push(newChannel);
-            localStorage.setItem('user_channels', JSON.stringify(savedChannels));
-            renderUserChannel(newChannel);
-        }
-
-        function renderUserChannel(ch) {
+        // رەندرکرنا بەش بەش (تەنها ٦٠ کەنالێن یەکەم پیشان ددەت دا شاشە فڕێز نەبیت)
+        function renderOptimizedGrid() {
             const box = document.getElementById('channel-box');
-            const div = document.createElement('div');
-            div.className = 'channel-card';
-            div.setAttribute('data-country', ch.category || 'user-added');
-            div.setAttribute('title', ch.name);
-            div.setAttribute('id', ch.id);
-            div.innerHTML = `
-                <div class="badge-dot" style="background:#a855f7;"></div>
-                <div class="poster-placeholder">${ch.name.substring(0, 5)}</div>`;
+            box.innerHTML = ''; 
             
-            div.addEventListener('click', function() { playLive(ch.url, ch.name, ch.isYoutube); });
-            div.addEventListener('contextmenu', function(e) { e.preventDefault(); confirmDeleteChannel(ch.id, ch.name); });
-            box.insertBefore(div, box.firstChild);
+            let displayLimit = Math.min(filteredList.length, 60); 
+            let chunkHtml = '';
+
+            for (let i = 0; i < displayLimit; i++) {
+                let ch = filteredList[i];
+                let dotClass = ch.type === 'kurd' ? 'dot-kurd' : (ch.type === 'sport' ? 'dot-sport' : 'dot-global');
+                
+                // بەکارهێنانی loading="lazy" بۆ هندێ کۆمپیوتەر گەرم نەبیت دگەڵ وێنەیان
+                let imgContent = `<div class="poster-placeholder">${ch.name.substring(0, 4)}</div>`;
+                if(ch.logo && ch.logo.startsWith('http')) {
+                    imgContent = `<img src="${ch.logo}" loading="lazy" onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend', '<div class=\\'poster-placeholder\\'>${ch.name.substring(0,4)}</div>')" alt="logo">`;
+                }
+
+                chunkHtml += `
+                    <div class="channel-card" title="${ch.name}" onclick="playLive('${ch.url}', '${ch.name.replace(/'/g, "\\'")}', false)">
+                        <div class="badge-dot ${dotClass}"></div>
+                        ${imgContent}
+                    </div>`;
+            }
+            box.innerHTML = chunkHtml;
+            document.getElementById('loading-status').innerText = `کەنالێن دیتن ب لۆگۆ: ${filteredList.length} کەنال`;
         }
 
-        function loadSavedChannels() {
-            let savedChannels = JSON.parse(localStorage.getItem('user_channels')) || [];
-            savedChannels.forEach(ch => renderUserChannel(ch));
-        }
-
-        // فێچکرنا ١٠,٠٠٠ کەنال و دابەشکرنا وان تەنها ب شێوازێ شەکل و لۆگۆ
+        // خویندنا ١0,000 کەنالان ب ئاوایەکێ پاراستی
         fetch('https://iptv-org.github.io/iptv/index.m3u')
             .then(res => res.text())
             .then(data => {
-                loadSavedChannels();
                 const lines = data.split('\n');
-                const box = document.getElementById('channel-box');
-                let validChannels = [];
-                let currentName = '';
-                let currentLogo = '';
+                let currentName = ''; let currentLogo = '';
+
+                // کەنالێن جێگیر یێن کوردی ل دەستپێکێ
+                allChannelsList.push({ type: 'kurd', url: 'https://www.youtube.com/embed/yF8zNf-48g0', name: 'Rudaw TV', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Rudaw_logo_2022.PNG' });
 
                 for (let i = 0; i < lines.length; i++) {
                     let line = lines[i].trim();
@@ -367,60 +218,21 @@
                             currentLogo = line.split('tvg-logo="')[1].split('"')[0];
                         }
                     } else if (line.startsWith('http') && currentName) {
-                        if (currentName.length <= 45 && !line.includes('Chrome')) {
-                            let lName = currentName.toLowerCase();
-                            let detectedCat = 'global';
+                        let lName = currentName.toLowerCase();
+                        let detectedCat = 'global';
 
-                            if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('waar') || lName.includes('kurdistan')) {
-                                detectedCat = 'kurd';
-                            } else {
-                                for (let key in filterRules) {
-                                    if (filterRules[key].some(keyword => lName.includes(keyword))) {
-                                        detectedCat = key;
-                                        break;
-                                    }
-                                }
+                        if(lName.includes('kurd') || lName.includes('rudaw') || lName.includes('waar') || lName.includes('kurdistan')) {
+                            detectedCat = 'kurd';
+                        } else {
+                            for (let key in filterRules) {
+                                if (filterRules[key].some(kwd => lName.includes(kwd))) { detectedCat = key; break; }
                             }
-                            validChannels.push({ type: detectedCat, url: line, name: currentName, logo: currentLogo });
                         }
+                        allChannelsList.push({ type: detectedCat, url: line, name: currentName, logo: currentLogo });
                         currentName = ''; currentLogo = '';
                     }
                 }
-
-                let index = 0; const chunkSize = 150;
-                function renderChunks() {
-                    if (index >= validChannels.length) {
-                        document.getElementById('loading-status').innerHTML = `<i class="fa-solid fa-circle-check"></i> هەمی نوکە ب شێوازێ وێنەیی یێ لۆد بووین! (${validChannels.length.toLocaleString()})`;
-                        return;
-                    }
-                    let chunkHtml = '';
-                    let limit = Math.min(index + chunkSize, validChannels.length);
-                    
-                    for (let i = index; i < limit; i++) {
-                        let ch = validChannels[i];
-                        let cleanName = ch.name.replace(/'/g, "\\'").replace(/"/g, '\\"');
-                        let dotClass = 'dot-global';
-                        
-                        let cardContent = `<div class="poster-placeholder">${ch.name.substring(0, 4)}</div>`;
-                        if(ch.logo && ch.logo.startsWith('http')) {
-                            cardContent = `<img src="${ch.logo}" onerror="this.style.display='none'; this.parentNode.insertAdjacentHTML('beforeend', '<div class=\\'poster-placeholder\\'>${ch.name.substring(0,4)}</div>')" alt="logo">`;
-                        }
-
-                        if(ch.type === 'kurd') dotClass = 'dot-kurd';
-                        else if(ch.type === 'sport') dotClass = 'dot-sport';
-
-                        chunkHtml += `
-                            <div class="channel-card" data-country="${ch.type}" title="${cleanName}" onclick="playLive('${ch.url}', '${cleanName}', false)">
-                                <div class="badge-dot ${dotClass}"></div>
-                                ${cardContent}
-                            </div>`;
-                    }
-                    box.insertAdjacentHTML('beforeend', chunkHtml);
-                    index += chunkSize;
-                    filterChannels();
-                    setTimeout(renderChunks, 5);
-                }
-                renderChunks();
+                filterChannels(); // تەنها یەکجار لۆد دکەت
             });
     </script>
 </body>

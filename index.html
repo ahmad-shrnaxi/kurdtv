@@ -85,6 +85,23 @@
     <div class="navbar">
         <div class="logo-area"><div class="sun-logo"></div><div class="logo-text">KURD <span>tv</span></div></div>
         <button class="btn-add" onclick="addNewChannelPrompt()"><i class="fa-solid fa-plus"></i> زێدەکرن</button>
+          }
+
+    // زێدەکرنا خێرا
+    function addNewChannelPrompt() {
+        let name = prompt("ناڤێ کەناڵێ نوو بنڤێسه:");
+        if (!name) return;
+        
+        let url = prompt("لینکێ کەناڵی (m3u8 یان یوتیوب) دابنی:");
+        if (!url) return;
+
+        let isYoutube = url.includes("youtube.com") || url.includes("youtu.be");
+        if (isYoutube && !url.includes("embed/")) {
+            let videoId = "";
+            if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
+            else if (url.includes("youtu.be/")) videoId = url.split("youtu.be/")[1].split("?")[0];
+            if (videoId) url = `https://www.youtube.com/embed/${videoId}`;
+        }
     </div>
 
     <div class="main-container">
@@ -110,6 +127,8 @@
                 <div class="tab-item" onclick="switchTab('sport', this)">⚽ وەرزش & beIN</div>
                 <div class="tab-item" onclick="switchTab('kids', this)">🧸 زارۆک</div>
                 <div class="tab-item" onclick="switchTab('movie', this)">🎬 فلیم</div>
+                <div class="tab-item" onclick="switchTab('arab', this)"> عربي</div>
+                <div class="tab-item" onclick="switchTab('turk', this)"> توركي</div>
             </div>
 
             <div id="loading-status" class="status-bar">چاوڕێبە... کەنال دهێنە ڕێکخستن</div>
